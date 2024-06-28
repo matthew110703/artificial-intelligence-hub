@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+@layer components {
+  .scale-transition {
+    @apply hover:scale-105 transition ease-in-out duration-500 hover:-translate-y-2
+  }
+
+  .ring-transition {
+    @apply hover:scale-105 transition ease-out duration-150 hover:ring hover:ring-current
+  }
+}
+
+::-webkit-scrollbar {
+  @apply w-1 h-1
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-accent-2 shadow-lg
+}
+
+audio::-webkit-media-controls-panel {
+  @apply bg-accent-2
+}
+
+audio::-webkit-meadia-controls-play-button {
+  @apply bg-primary
+}
+
+
+
