@@ -1,20 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import HeroBanner from "../components/homepage/HeroBanner";
 import InfoElement from "../components/homepage/InfoElement";
-import { useEffect } from "react";
 
 export default function HomePage() {
-  useEffect(() => {
-    console.log(
-      import.meta.env.VITE_API_ENDPOINT,
-      import.meta.env.VITE_ELEVEN_LABS_API_KEY,
-      import.meta.env.VITE_RAPID_API_KEY,
-      import.meta.env.VITE_GEMINI_API_KEY
-    );
-
-    return () => {};
-  }, []);
-
   return (
     <>
       <HeroBanner />
