@@ -10,8 +10,13 @@ class Register(Resource):
     def post(self):
         data = request.json
         user = db.users.find_one({"username": data['username']})
+        user_email = db.users.find_one({"email": data['email']})
+
         if user:
-            abort(404, error='Username already exists. Please choose a different username.')
+            abort(404, error='Username  already exists. Please choose a different username.')
+        if user_email:
+            abort(404, error='Email already exists. Please choose a different email.')
+
         time.sleep(5)    
         try:
             username, email = data['username'], data['email']

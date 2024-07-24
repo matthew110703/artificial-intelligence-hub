@@ -49,25 +49,31 @@ export default function UserForm({ isLoginPage }) {
       }
     } else {
       // REGISTER USER
-      if (password === password2) {
-        const credentials = {
-          username: userName,
-          email: email,
-          password: password,
-        };
-        try {
-          const response = await signUp(credentials);
-          setIsLoading(false);
-          alert(response.success);
-          setEmail("");
-          setPassword("");
-          navigate("/login");
-        } catch (error) {
-          alert(error.message);
+      if (password.length >= 8) {
+        console.log(password.length);
+        if (password === password2) {
+          const credentials = {
+            username: userName,
+            email: email,
+            password: password,
+          };
+          try {
+            const response = await signUp(credentials);
+            setIsLoading(false);
+            alert(response.success);
+            setEmail("");
+            setPassword("");
+            navigate("/login");
+          } catch (error) {
+            alert(error.message);
+            setIsLoading(false);
+          }
+        } else {
+          alert("Passwords do not match");
           setIsLoading(false);
         }
       } else {
-        alert("Passwords do not match");
+        alert("Password must be at least 8 characters long");
         setIsLoading(false);
       }
     }
