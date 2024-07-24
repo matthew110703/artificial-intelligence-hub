@@ -1,7 +1,10 @@
 /* eslint-disable react/prop-types */
+
+import { Link } from "react-router-dom";
+
 export default function ToolCard({ name, description, image, href }) {
   return (
-    <a href={href}>
+    <Link to={href}>
       <div
         className="flex gap-x-10 bg-accent-2  p-10 rounded-lg shadow-xl 
        hover:bg-primary text-black hover:text-white scale-transition ease-out border-b-4 border-primary border-l-4 border"
@@ -20,6 +23,6 @@ export default function ToolCard({ name, description, image, href }) {
           loading="lazy"
         />
       </div>
-    </a>
+    </Link>
   );
 }

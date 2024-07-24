@@ -1,4 +1,5 @@
 import { MdExplore } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function HeroBanner() {
   return (
@@ -17,9 +18,9 @@ export default function HeroBanner() {
             <br /> AI Hub has you covered.
           </p>
 
-          <a
+          <Link
             role="button"
-            href="/explore"
+            to={"/explore"}
             className="bg-secondary text-2xl text-white text-center p-3 rounded-lg w-1/3 italic tracking-widest shadow 
           hover:scale-105 transition ease-out duration-150 hover:ring hover:ring-current"
           >
@@ -27,7 +28,7 @@ export default function HeroBanner() {
             <span>
               <MdExplore className="inline" size={32} />
             </span>
-          </a>
+          </Link>
         </div>
 
         <div
