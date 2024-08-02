@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Analytics } from "@vercel/analytics/react";
 import "./index.css";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 
@@ -79,6 +80,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <CookiesProvider>
       <MyProvider>
+        <Analytics />
         <RouterProvider router={router} />
       </MyProvider>
     </CookiesProvider>
