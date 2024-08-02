@@ -38,6 +38,10 @@ export default function ForgotPassword({ isOpen, onClose }) {
   const handlePasswordReset = async (e) => {
     e.preventDefault();
 
+    if (newPassword.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return;
+    }
     if (newPassword !== confirmNewPassword) {
       alert("Passwords do not match");
       return;

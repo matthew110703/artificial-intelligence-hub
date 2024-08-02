@@ -2,14 +2,21 @@
 import { TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { resetPassword } from "../../utils/lib";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword({ username }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newPassword.length < 8) {
+      alert("Password must be at least 8 characters long");
+      return;
+    }
     if (newPassword !== confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -18,7 +25,7 @@ export default function ResetPassword({ username }) {
     try {
       const res = await resetPassword(username, oldPassword, newPassword);
       alert(res);
-      window.location.reload();
+      navigate("/");
     } catch (error) {
       alert(error);
     }

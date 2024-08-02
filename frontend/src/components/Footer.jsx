@@ -12,7 +12,7 @@ export default function Footer() {
           <div className="flex flex-row justify-around items-center ">
             {/* Logo and Description */}
             <div className="mb-6 md:mb-0">
-              <a href="#" className="flex items-center text-xl font-semibold">
+              <Link to="/" className="flex items-center text-xl font-semibold">
                 <img
                   src="/media/brain.png"
                   alt="Logo"
@@ -21,7 +21,7 @@ export default function Footer() {
                   className="mr-2"
                 />
                 AI Hub
-              </a>
+              </Link>
               <p className="mt-2 text-sm text-gray-800">
                 Providing quality service since 2024.
               </p>
@@ -29,7 +29,7 @@ export default function Footer() {
 
             {/* Navigation Links */}
             <Link
-              href="/contact"
+              to="/contact"
               onClick={() => {
                 setModal({ isOpen: true, type: "contact" });
               }}
@@ -43,10 +43,18 @@ export default function Footer() {
             <div>
               <h2 className="font-semibold mb-2">Follow Us</h2>
               <div className="flex space-x-4">
-                <a href="#" className="scale-transition hover:-translate-y-0">
+                <a
+                  href="www.instagram.com"
+                  target="_blank"
+                  className="scale-transition hover:-translate-y-0"
+                >
                   <img src="/media/insta.gif" alt="" width={32} height={32} />
                 </a>
-                <a href="#" className="scale-transition hover:-translate-y-0">
+                <a
+                  href="www.twitter.com"
+                  target="_blank"
+                  className="scale-transition hover:-translate-y-0"
+                >
                   <img
                     width="32"
                     height="32"
@@ -54,7 +62,11 @@ export default function Footer() {
                     alt="twitter--v1"
                   />
                 </a>
-                <a href="#" className="scale-transition hover:-translate-y-0">
+                <a
+                  href="www.linkedin.com/in/matthew110703"
+                  target="_blank"
+                  className="scale-transition hover:-translate-y-0"
+                >
                   <img
                     width="32"
                     height="32"
@@ -62,7 +74,11 @@ export default function Footer() {
                     alt="linkedin"
                   />
                 </a>
-                <a href="#" className="scale-transition hover:-translate-y-0">
+                <a
+                  href="www.github.com/unknownloop11"
+                  target="_blank"
+                  className="scale-transition hover:-translate-y-0"
+                >
                   <img
                     width="32"
                     height="32"
