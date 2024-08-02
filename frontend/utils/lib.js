@@ -57,7 +57,7 @@ export const resetPassword = async (username, oldPassword, newPassword) => {
         params: { username },
       }
     );
-    return response.data;
+    return response;
   } catch (error) {
     throw new Error(error.response.data.error);
   }

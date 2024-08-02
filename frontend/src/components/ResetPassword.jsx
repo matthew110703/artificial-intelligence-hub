@@ -24,8 +24,8 @@ export default function ResetPassword({ username }) {
 
     try {
       const res = await resetPassword(username, oldPassword, newPassword);
-      alert(res);
-      navigate("/");
+      alert("Password reset successfully. Please login again.", res);
+      navigate("/login");
     } catch (error) {
       alert(error);
     }
