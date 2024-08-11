@@ -8,14 +8,3 @@ The AI Hub is a groundbreaking platform designed to provide users with cutting-e
 ### https://artificial-intelligence-hub.vercel.app/
 
 
-## Steps:
-- install node.js
-- install python 3.11
-- open the project folder
-- open first terminal
-- type cd frontend
-- open first terminal
-- type cd backend
-- in first terminal type npm install
-- in second terminal type virtualenv venv
-- 
