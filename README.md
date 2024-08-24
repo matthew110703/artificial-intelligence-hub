@@ -5,14 +5,14 @@ The AI Hub is a groundbreaking platform designed to provide users with cutting-e
 #### Frontend: React JS, Tailwind CSS, Material UI
 #### Backend: Python Flask, MongoDB
 
-### https://artificial-intelligence-hub.vercel.app/
+### View Demo: https://artificial-intelligence-hub.vercel.app/
 <br/>
 
 ### Features
 - **Chatbot** - Google Gemini AI
 - **Email Writer** - Generate professional emails according to your requirements. 
 - **Text to Speech** - Convert text to audible speech with the help of the powerful Eleven Labs Speech Synthesis.
-- **Text to Image** - Generate high quality images with the help of Stable Diffusion AI.
+- **Text to Image** - Generate high-quality images with the help of Stable Diffusion AI.
 
 ---
 ### UI PREVIEW -
