@@ -15,7 +15,8 @@ The AI Hub is a groundbreaking platform designed to provide users with cutting-e
 - **Text to Image** - Generate high quality images with the help of Stable Diffusion AI.
 
 ---
-
+### UI PREVIEW -
+<br/>
 
 ![Screenshot (51)](https://github.com/user-attachments/assets/080f6ed1-bcbe-4ba3-93cd-f73ce1c1f21b)
 
