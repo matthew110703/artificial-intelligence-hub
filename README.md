@@ -5,7 +5,8 @@ The AI Hub is a groundbreaking platform designed to provide users with cutting-e
 #### Frontend: React JS, Tailwind CSS, Material UI
 #### Backend: Python Flask, MongoDB
 
-### View Demo: https://artificial-intelligence-hub.vercel.app/
+### View Live Demo: 
+#### https://artificial-intelligence-hub.vercel.app/
 <br/>
 
 ### Features
