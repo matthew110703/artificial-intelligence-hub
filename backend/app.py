@@ -24,5 +24,6 @@ api.add_resource(UserResetPassword, '/api/user/reset-password')
 api.add_resource(UserForgotPassword, '/api/user/forgot-password')
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    # port = int(os.environ.get("PORT", 5000))
+    # app.run(host="0.0.0.0", port=port)
+    app.run()
