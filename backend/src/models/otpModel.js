@@ -4,15 +4,18 @@ const otpSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+    index: true,
   },
   otp: {
     type: String,
     required: true,
+    maxLength: [6, "OTP must be 6 characters long"],
+    unique: true,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 600,
+    expires: 300, // 5 minutes
   },
 });
 
