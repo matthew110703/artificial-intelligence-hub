@@ -2,11 +2,18 @@ import { Router } from "express";
 
 // Controllers
 import { sendOtp, verifyOtp } from "../controllers/otpController.js";
+import {
+  signUp,
+  signIn,
+  resetPassword,
+} from "../controllers/authController.js";
 
 const authRoutes = Router();
 
 // Send OTP
 authRoutes.post("/send-otp", sendOtp);
-authRoutes.post("/verify-otp", verifyOtp);
+authRoutes.post("/sign-up", verifyOtp, signUp);
+authRoutes.post("/sign-in", signIn);
+authRoutes.post("/reset-password", resetPassword);
 
 export default authRoutes;

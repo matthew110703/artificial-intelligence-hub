@@ -15,7 +15,7 @@ export const sendOtp = async (req, res, next) => {
     // Validate the email
     if (!email) {
       throw {
-        name: "Validation Error",
+        name: "ValidationError",
         message: "Email is required",
         statusCode: 400,
       };
@@ -24,10 +24,11 @@ export const sendOtp = async (req, res, next) => {
     // Check if the OTP already exists
     const existingOtp = await OTP.findOne({ email });
     if (existingOtp && !resend) {
-      return res.status(400).json({
-        success: false,
+      throw {
+        name: "ValidationError",
         message: "OTP already sent. Please check your email",
-      });
+        statusCode: 400,
+      };
     } else if (existingOtp && resend) {
       // Delete the existing OTP
       await OTP.findOneAndDelete({ email });
@@ -57,7 +58,7 @@ export const sendOtp = async (req, res, next) => {
 };
 
 /**
- * Verify OTP
+ * Verify OTP Middleware
  */
 export const verifyOtp = async (req, res, next) => {
   const { email, otp } = req.body;
@@ -66,7 +67,7 @@ export const verifyOtp = async (req, res, next) => {
     // Validate the email and OTP
     if (!email || !otp) {
       throw {
-        name: "Validation Error",
+        name: "ValidationError",
         message: "Email and OTP are required",
         statusCode: 400,
       };
@@ -75,20 +76,19 @@ export const verifyOtp = async (req, res, next) => {
     // Find the OTP
     const existingOtp = await OTP.findOne({ email, otp });
     if (!existingOtp) {
-      return res.status(400).json({
-        success: false,
-        message:
-          "Invalid OTP or OTP might have expired. Please request a new OTP",
-      });
+      throw {
+        name: "VerificationError",
+        message: "Invalid OTP",
+        statusCode: 400,
+      };
     }
 
     // Delete the OTP from the database
     await OTP.findOneAndDelete({ email, otp });
 
-    res.status(200).json({
-      success: true,
-      message: "OTP verified successfully",
-    });
+    // Set the user as verified
+    req.verified = true;
+    next();
   } catch (error) {
     console.error(error);
     next(error);
