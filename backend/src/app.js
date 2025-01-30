@@ -11,7 +11,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to Artificial Intelligence Hub API");
 });
 
-// Routes
+// Routes imports
+import authRoutes from "./routes/authRoutes.js";
+
 // API Status
 app.get("/api/status", (req, res) => {
   res.json({
@@ -23,5 +25,12 @@ app.get("/api/status", (req, res) => {
     date: new Date(),
   });
 });
+
+// Routes
+app.use("/api/auth", authRoutes);
+
+// Error Handler
+import errorHandler from "./middleware/errorHandler.js";
+app.use(errorHandler);
 
 export default app;
