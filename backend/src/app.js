@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 
 // Routes imports
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 // API Status
 app.get("/api/status", (req, res) => {
@@ -28,6 +29,7 @@ app.get("/api/status", (req, res) => {
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 // Error Handler
 import errorHandler from "./middleware/errorHandler.js";
