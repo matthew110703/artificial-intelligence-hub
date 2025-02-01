@@ -110,6 +110,15 @@ export const signIn = async (req, res, next) => {
  */
 export const resetPassword = async (req, res, next) => {
   try {
+    // Check if the user verified the email OTP
+    if (!req.verified) {
+      throw {
+        name: "VerificationError",
+        message: "Please verify email before resetting password",
+        statusCode: 400,
+      };
+    }
+
     // Check if the user exists
     const user = await User.findOne({
       $or: [{ email: req.body.email }, { username: req.body.username }],
