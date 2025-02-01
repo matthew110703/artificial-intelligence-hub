@@ -3,7 +3,9 @@ const errorHandler = (err, req, res, next) => {
   const error = err.name || "Internal Server Error";
   const message = err.message || "Please try again later.";
 
-  console.error(`Error: ${error} - Message: ${message}`);
+  if (process.env.NODE_ENV === "development") {
+    console.error(`Error: ${error} - Message: ${message}`);
+  }
 
   return res.json({
     errorCode: statusCode,
