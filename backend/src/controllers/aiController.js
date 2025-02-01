@@ -161,6 +161,13 @@ export const generateImage = async (req, res, next) => {
   const { prompt } = req.body;
 
   try {
+    // Validate Inputs
+    if (!prompt) {
+      return res.status(400).json({
+        message: "Please provide a prompt",
+      });
+    }
+
     // Assigning Task
     const task = await fetch(url.task, {
       ...options,

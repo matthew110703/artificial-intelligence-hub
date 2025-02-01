@@ -13,7 +13,7 @@ export const sendOtp = async (req, res, next) => {
 
   try {
     // Validate the email
-    if (!email) {
+    if (!email || !email.includes("@")) {
       throw {
         name: "ValidationError",
         message: "Email is required",
@@ -65,7 +65,7 @@ export const verifyOtp = async (req, res, next) => {
 
   try {
     // Validate the email and OTP
-    if (!email || !otp) {
+    if (!email || !email.includes("@") || !otp) {
       throw {
         name: "ValidationError",
         message: "Email and OTP are required",
