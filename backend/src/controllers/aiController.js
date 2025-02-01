@@ -88,6 +88,7 @@ export const generateEmail = async (req, res, next) => {
         responseMimeType: "application/json",
         responseSchema: emailSchema,
       },
+      systemInstruction: "You are professional email writer.",
     });
 
     const modifiedPrompt = `
