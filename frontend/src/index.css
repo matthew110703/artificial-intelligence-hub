@@ -1,1 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @import "tailwindcss";
+
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+@theme {
+    /* Custom Colors */
+    --color-dark: #211951;
+    --color-light: #F0F3FF;
+    --color-primary: #15F5BA;
+
+    /* Custom Fonts */
+    --font-primary: 'Josefin Sans', sans-serif;
+    --font-secondary: 'Inconsolata', monospace;
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+body {
+    @apply bg-light text-dark dark:bg-dark dark:text-light font-secondary;
+} 
+
