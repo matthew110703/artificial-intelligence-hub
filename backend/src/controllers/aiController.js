@@ -104,12 +104,8 @@ export const generateEmail = async (req, res, next) => {
 };
 
 // Text to Image Generation
-
-const url = {
-  task: "https://ai-image-generating.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/finalimage.php",
-  getImage:
-    "https://ai-image-generating.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/getimage.php",
-};
+const url =
+  "https://ai-image-generating.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php";
 const options = {
   method: "POST",
   headers: {
@@ -117,41 +113,6 @@ const options = {
     "x-rapidapi-key": process.env.RAPIDAPI_KEY,
     "x-rapidapi-host": "ai-image-generating.p.rapidapi.com",
   },
-};
-
-/**
- * Polling for Images to be generated
- * @param {Object} payload
- * @param {String} payload.task_id
- * @param {String} payload.token
- * @returns
- */
-const pollImages = async (payload) => {
-  try {
-    const startTime = Date.now();
-
-    while (true) {
-      const fetchImage = await fetch(url.getImage, {
-        ...options,
-        body: JSON.stringify(payload),
-      });
-
-      const { result: imageResult } = await fetchImage.json();
-
-      const status = imageResult?.data?.queue_info?.status;
-
-      if (status === "success") {
-        return imageResult?.data?.results;
-      }
-
-      if (Date.now() - startTime > 60000) {
-        throw new Error("Image generation timed out. Please try again.");
-      }
-      await new Promise((resolve) => setTimeout(resolve, 10000));
-    }
-  } catch (error) {
-    throw error;
-  }
 };
 
 /**
@@ -164,12 +125,12 @@ export const generateImage = async (req, res, next) => {
     // Validate Inputs
     if (!prompt) {
       return res.status(400).json({
-        message: "Please provide a prompt",
+        error: "Please provide a prompt",
       });
     }
 
     // Assigning Task
-    const task = await fetch(url.task, {
+    const task = await fetch(url, {
       ...options,
       body: JSON.stringify({
         prompt,
@@ -178,18 +139,16 @@ export const generateImage = async (req, res, next) => {
       }),
     });
 
-    const { token, result } = await task.json();
-    const { task_id } = result;
-
-    // Delay for 5 seconds before polling
-    await Promise.all([new Promise((resolve) => setTimeout(resolve, 5000))]);
-
-    // Polling for Images
-    const images = await pollImages({ task_id, token });
+    const { final_result, error } = await task.json();
+    if (error) {
+      return res.status(400).json({
+        error,
+      });
+    }
 
     res.json({
       success: true,
-      images,
+      images: final_result,
     });
   } catch (error) {
     next(error);
