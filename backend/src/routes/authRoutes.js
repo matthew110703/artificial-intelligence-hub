@@ -13,8 +13,8 @@ const authRoutes = Router();
 
 // Send OTP
 authRoutes.post("/send-otp", sendOtp);
-authRoutes.post("/sign-up", verifyOtp, signUp);
-authRoutes.post("/sign-in", signIn);
+authRoutes.post("/signup", verifyOtp, signUp);
+authRoutes.post("/signin", signIn);
 authRoutes.post("/reset-password", verifyOtp, resetPassword);
 authRoutes.post("/check-availability", checkAvailability);
 

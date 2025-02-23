@@ -21,7 +21,7 @@ function hashPassword(password) {
 export const checkAvailability = async (req, res, next) => {
   const { email, username } = req.body;
   try {
-    if ((!email || !email.includes("@")) && !username) {
+    if (!email && !email.includes("@") && !username) {
       throw {
         statusCode: 400,
         name: "BadRequest",

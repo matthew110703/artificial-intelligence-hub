@@ -33,8 +33,8 @@ export const updateUser = async (req, res, next) => {
   const {
     username: newUsername,
     email: newEmail,
-    firstName,
-    lastName,
+    firstname,
+    lastname,
     purpose,
   } = req.body;
   try {
@@ -90,8 +90,8 @@ export const updateUser = async (req, res, next) => {
     user.set({
       username: newUsername || user.username,
       email: newEmail || user.email,
-      firstName: firstName || user.firstName,
-      lastName: lastName || user.lastName,
+      firstName: firstname || user.firstname,
+      lastname: lastname || user.lastname,
       purpose: purpose || user.purpose,
     });
     await user.save();
