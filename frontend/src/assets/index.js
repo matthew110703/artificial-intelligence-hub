@@ -10,7 +10,6 @@ import envelope from "./icons/envelope.png";
 import getStarted from "./icons/get-started.png";
 import info from "./icons/info.png";
 import login from "./icons/login.png";
-import office from "./icons/office.png";
 import personal from "./icons/personal.png";
 import password from "./icons/password.png";
 import reload from "./icons/reload.png";
@@ -22,6 +21,18 @@ import sparks from "./icons/sparks.png";
 import username from "./icons/username.png";
 import upArrow from "./icons/up-arrow.png";
 import lightMode from "./icons/light-mode.png";
+import work from "./icons/work.png";
+import downloadIcon from "./icons/download.png";
+import visibility from "./icons/visibility.png";
+import visibilityOff from "./icons/visibility-off.png";
+import chatIcon from "./icons/chat.png";
+import editIcon from "./icons/edit.png";
+import geminiIcon from "./icons/gemini.png";
+import closeIcon from "./icons/close.png";
+import settingsIcon from "./icons/settings.png";
+import playIcon from "./icons/play.png";
+import downloadDarkIcon from "./icons/download-dark.png";
+import copyIcon from "./icons/copy.png";
 
 export {
   logo,
@@ -35,7 +46,6 @@ export {
   getStarted,
   info,
   login,
-  office,
   personal,
   password,
   reload,
@@ -47,4 +57,16 @@ export {
   username,
   upArrow,
   lightMode,
+  work,
+  downloadIcon,
+  visibility,
+  visibilityOff,
+  chatIcon,
+  editIcon,
+  geminiIcon,
+  closeIcon,
+  settingsIcon,
+  playIcon,
+  downloadDarkIcon,
+  copyIcon,
 };
