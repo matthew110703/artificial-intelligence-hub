@@ -17,6 +17,48 @@ function hashPassword(password) {
   return bcrypt.hash(password, 10);
 }
 
+/** Check Availability of email and username */
+export const checkAvailability = async (req, res, next) => {
+  const { email, username } = req.body;
+  try {
+    if ((!email || !email.includes("@")) && !username) {
+      throw {
+        statusCode: 400,
+        name: "BadRequest",
+        message: "Email or username is required",
+      };
+    }
+
+    // Check if email is available
+    const emailExists = email ? await User.findOne({ email }) : null;
+    if (emailExists) {
+      throw {
+        statusCode: 400,
+        name: "BadRequest",
+        message: "Email is already taken",
+      };
+    }
+
+    // Check if username is available
+    const usernameExists = username ? await User.findOne({ username }) : null;
+    if (usernameExists) {
+      throw {
+        statusCode: 400,
+        name: "BadRequest",
+        message: "Username is already taken",
+      };
+    }
+
+    // Availability check passed
+    res.json({
+      success: true,
+      message: "Available",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /**
  * Sign up a new user
  */

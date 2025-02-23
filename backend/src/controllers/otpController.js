@@ -3,12 +3,13 @@ import { generate } from "otp-generator";
 
 // Model
 import OTP from "../models/otpModel.js";
+import User from "../models/userModel.js";
 
 /**
  * Generate OTP and send it to the user's email
  */
 export const sendOtp = async (req, res, next) => {
-  const { resend = false } = req.query;
+  const { resend = false, signup = true } = req.query;
   const { email } = req.body;
 
   try {
@@ -19,6 +20,18 @@ export const sendOtp = async (req, res, next) => {
         message: "Email is required",
         statusCode: 400,
       };
+    }
+
+    // Check if the user exists
+    if (signup) {
+      const user = await User.findOne({ email });
+      if (user) {
+        throw {
+          name: "ValidationError",
+          message: "User already exists",
+          statusCode: 400,
+        };
+      }
     }
 
     // Check if the OTP already exists

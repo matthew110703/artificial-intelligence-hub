@@ -6,6 +6,7 @@ import {
   signUp,
   signIn,
   resetPassword,
+  checkAvailability,
 } from "../controllers/authController.js";
 
 const authRoutes = Router();
@@ -15,5 +16,6 @@ authRoutes.post("/send-otp", sendOtp);
 authRoutes.post("/sign-up", verifyOtp, signUp);
 authRoutes.post("/sign-in", signIn);
 authRoutes.post("/reset-password", verifyOtp, resetPassword);
+authRoutes.post("/check-availability", checkAvailability);
 
 export default authRoutes;
