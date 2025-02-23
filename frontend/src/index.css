@@ -25,3 +25,22 @@ body {
     @apply bg-light text-dark dark:bg-dark dark:text-light font-secondary;
 } 
 
+/* Removing Custom Autofill Background Color */
+input:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* For Chrome, Edge, and Safari */
+.mini-scrollbar::-webkit-scrollbar {
+    width: 3px; /* Adjust as needed */
+}
+
+.mini-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-primary); /* Scrollbar color */
+    border-radius: 16px;
+}
