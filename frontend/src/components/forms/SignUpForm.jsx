@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // UI
 import Input from "../ui/Input";
@@ -19,8 +19,21 @@ import {
 // Constants
 import { PURPOSES } from "../../lib/constants";
 
+// Services
+import { checkAvailability, sendOtp, signUp } from "../../services/authService";
+
+// Redux
+import { useDispatch } from "react-redux";
+import { showToast } from "../../store/toastSlice";
+
 const SignUpForm = () => {
+  // Hooks
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Form state
   const [form, setForm] = useState({
+    otp: "",
     firstname: "",
     lastname: "",
     username: "",
@@ -45,32 +58,62 @@ const SignUpForm = () => {
   };
 
   // Validate Form
-  const validateForm = (e) => {
+  const validateForm = async (e) => {
     e.preventDefault();
 
     // Validate fields
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match");
+      dispatch(showToast({ message: "Passwords do not match", type: "error" }));
       return;
     }
     if (form.purpose === "") {
-      alert("Please select a purpose of use");
+      dispatch(showToast({ message: "Select a purpose", type: "error" }));
       return;
     }
 
-    // Check username & email availability
+    try {
+      setLoading(true);
+      // Check availability of email and username
+      const res = await checkAvailability(form.username, form.email);
+      if (!res.success) {
+        dispatch(showToast({ message: res.message, type: "error" }));
+        return;
+      }
+      // Send OTP to email
+      const { message: otpMessage } = await sendOtp(form.email);
 
-    // Send OTP to email
+      // Dispatch
+      dispatch(showToast({ message: otpMessage, type: "success" }));
 
-    // Set isSubmitted to true
-    setIsSubmitted(true);
+      // Set isSubmitted to true
+      setIsSubmitted(true);
+    } catch (error) {
+      dispatch(showToast({ message: error, type: "error" }));
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Handle Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted");
-    console.log(form);
+    setLoading(true);
+    // Call signUp service
+    try {
+      const res = await signUp(form);
+      // Store token in local storage
+      localStorage.setItem("token", res.token);
+
+      // Dispatch
+      dispatch(showToast({ message: res.message, type: "success" }));
+
+      // Redirect to login page
+      navigate("/dashboard");
+    } catch (error) {
+      dispatch(showToast({ message: error, type: "error" }));
+    } finally {
+      setLoading(false);
+    }
   };
 
   // OTP timeout
@@ -84,9 +127,19 @@ const SignUpForm = () => {
     }
   }, [isSubmitted, otpResendTimeout]);
 
-  const handleResendOTP = () => {
+  // Handle Resend OTP
+  const handleResendOTP = async () => {
+    const { success, message } = await sendOtp(form.email, true);
+    if (!success) {
+      alert(message);
+    }
+    alert("OTP sent successfully");
     setOtpResendTimeout(90);
-    alert("OTP Resent to your email");
+  };
+
+  const loginAsGuest = () => {
+    dispatch(showToast({ message: "Logged in as a Guest", type: "info" }));
+    navigate("/chat");
   };
 
   return (
@@ -196,6 +249,7 @@ const SignUpForm = () => {
               text={"Sign Up"}
               startIcon={login}
               className={"min-w-sm"}
+              loading={loading}
             />
             <p className="text-center text-sm">
               Already have an account?{" "}
@@ -224,6 +278,7 @@ const SignUpForm = () => {
             text={"Login as a Guest"}
             startIcon={login}
             className={"min-w-sm"}
+            onClick={loginAsGuest}
           />
         </form>
       )}
@@ -255,6 +310,8 @@ const SignUpForm = () => {
           <div className="flex w-full items-center justify-between text-xs">
             <p>Didn’t receive code? </p>
             <button
+              aria-label="Resend OTP"
+              type="button"
               className="bg-primary/50 rounded-full px-2 py-1 text-xs disabled:bg-gray-200"
               disabled={otpResendTimeout > 0}
               onClick={handleResendOTP}
@@ -266,9 +323,10 @@ const SignUpForm = () => {
           </div>
           <Button
             type="submit"
-            text={"Verify"}
+            text={"Verify OTP"}
             startIcon={login}
             className={"my-4 min-w-sm"}
+            loading={loading}
           />
 
           {/* Go back  */}

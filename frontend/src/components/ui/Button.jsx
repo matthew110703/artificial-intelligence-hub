@@ -6,7 +6,8 @@ const Button = ({
   text,
   startIcon,
   endIcon,
-  disabled = false,
+  loading = false,
+  disabled = loading || false,
   className,
   onClick,
   iconSize = 24,
@@ -19,14 +20,14 @@ const Button = ({
       name={text}
       type={type}
       disabled={disabled}
-      className={`${className} bg-primary font-primary text-dark flex items-end justify-center gap-x-2 rounded-3xl px-4 py-2 text-sm font-semibold shadow-2xl transition-all duration-150 hover:scale-105 hover:brightness-110 active:scale-95`}
+      className={`${className} bg-primary font-primary text-dark flex items-end justify-center gap-x-2 rounded-3xl px-4 py-2 text-sm font-semibold shadow-2xl transition-all duration-150 hover:scale-105 hover:brightness-110 active:scale-95 ${disabled && "cursor-not-allowed opacity-70"}`}
       onClick={onClick}
       aria-label={text}
       hidden={hidden || text === ""}
       {...rest}
     >
       {startIcon && <Icon src={startIcon} alt={"icon"} size={iconSize} />}
-      {text && text}
+      {text && loading ? "Loading..." : text}
       {endIcon && <Icon src={startIcon} alt={"icon"} size={iconSize} />}
     </button>
   );

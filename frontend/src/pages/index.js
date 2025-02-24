@@ -6,6 +6,7 @@ import Chatbot from "./Chatbot";
 import Imagen from "./Imagen";
 import LoginAndSignUp from "./LoginAndSignup";
 import NotFound from "./NotFound";
+import Protected from "./Protected";
 
 export {
   Home,
@@ -16,4 +17,5 @@ export {
   Imagen,
   LoginAndSignUp,
   NotFound,
+  Protected,
 };

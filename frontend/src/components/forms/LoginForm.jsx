@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // UI
 import Button from "../ui/Button";
@@ -14,9 +14,20 @@ import {
   login,
 } from "../../assets";
 
+// Services
+import { signIn } from "../../services/authService";
+
+// Redux
+import { useDispatch } from "react-redux";
+import { showToast } from "../../store/toastSlice";
+
 const LoginForm = () => {
+  // Hooks
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // Form States
-  const [username, setUsername] = useState("");
+  const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
   // Helper states
@@ -24,9 +35,35 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
 
   // Handle Submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    // Validate Input
+    let email, username;
+    user.includes("@") ? (email = user) : (username = user);
+
+    // API call
+    try {
+      const res = await signIn({ email, username, password });
+      // Success
+      dispatch(showToast({ message: res.message, type: "success" }));
+      // Store Token
+      localStorage.setItem("token", res.token);
+      // Redirect to Dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+      dispatch(showToast({ message: error, type: "error" }));
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loginAsGuest = () => {
+    dispatch(showToast({ message: "Logged in as a Guest", type: "info" }));
+    navigate("/chat");
   };
 
   return (
@@ -45,11 +82,11 @@ const LoginForm = () => {
           type="text"
           placeholder={"Username or Email"}
           startAdornment={userIcon}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
           required
           minLength={3}
           maxLength={20}
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
         />
         {/* Password */}
         <Input
@@ -80,6 +117,7 @@ const LoginForm = () => {
             text={"Login"}
             startIcon={login}
             className={"min-w-sm"}
+            loading={loading}
           />
           <p className="text-center text-sm">
             Don't have an account?{" "}
@@ -108,6 +146,7 @@ const LoginForm = () => {
           text={"Login as a Guest"}
           startIcon={login}
           className={"min-w-sm"}
+          onClick={loginAsGuest}
         />
       </form>
     </section>

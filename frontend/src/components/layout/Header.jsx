@@ -14,10 +14,20 @@ import Button from "../ui/Button";
 import NavLink from "../ui/NavLink";
 import Icon from "../ui/Icon";
 
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { showToast } from "../../store/toastSlice";
+import { logout } from "../../store/authSlice";
+
 const Header = () => {
-  const { toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { toggleTheme } = useContext(ThemeContext);
   const [showDetails, setShowDetails] = useState(false);
+
+  // Redux
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   // Close the details when clicked outside
   useEffect(() => {
@@ -40,12 +50,26 @@ const Header = () => {
     };
   }, [showDetails]);
 
+  const handleLogout = () => {
+    // Logout User
+    localStorage.removeItem("token");
+    dispatch(logout());
+    dispatch(
+      showToast({
+        message: "Logged out successfully",
+        type: "success",
+      }),
+    );
+    // Redirect to Home
+    navigate("/");
+  };
+
   return (
     <header className="text-dark font-primary dark:text-light shadow-primary container mx-auto flex w-full items-center justify-between rounded-lg px-4 py-2 shadow-sm">
       {/* Brand Logo */}
       <Link
         role="button"
-        to="/"
+        to={isAuthenticated ? "/dashboard" : "/"}
         className="flex items-end gap-2 text-lg font-bold md:text-xl"
       >
         <Icon src={logo} alt={"Logo"} size={32} invert />
@@ -88,7 +112,7 @@ const Header = () => {
           text={"Login"}
           startIcon={login}
           onClick={() => navigate("/login")}
-          hidden
+          hidden={isAuthenticated}
         />
         <div className="relative">
           <Button
@@ -96,6 +120,7 @@ const Header = () => {
             text={"Username"}
             startIcon={account}
             onClick={() => setShowDetails(!showDetails)}
+            hidden={!isAuthenticated}
           />
           {showDetails && (
             <div
@@ -104,7 +129,11 @@ const Header = () => {
             >
               <NavLink text={"Dashboard"} to="/dashboard" />
               <NavLink text={"Account"} />
-              <Button text={"Logout"} className={"rounded-lg"} />
+              <Button
+                text={"Logout"}
+                className={"rounded-lg"}
+                onClick={handleLogout}
+              />
             </div>
           )}
         </div>
