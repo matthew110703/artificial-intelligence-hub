@@ -7,7 +7,7 @@ const authenticate = (req, res, next) => {
       throw {
         statusCode: 401,
         name: "Unauthorized",
-        message: "Access denied. No token provided.",
+        message: "Access denied. Please login again.",
       };
     }
 
@@ -21,8 +21,13 @@ const authenticate = (req, res, next) => {
     console.error(`Error: ${error} - Message: ${error.message}`);
     if (error.name === "JsonWebTokenError") {
       error.statusCode = 401;
-      error.name = "Unauthorized";
-      error.message = "Invalid token";
+      error.name = "InvalidToken";
+      error.message = "Invalid token. Please login again.";
+    }
+    if (error.name === "TokenExpiredError") {
+      error.name = "TokenExpired";
+      error.statusCode = 401;
+      error.message = "Token expired. Please login again.";
     }
     next(error);
   }

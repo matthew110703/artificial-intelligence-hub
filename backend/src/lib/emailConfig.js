@@ -22,11 +22,11 @@ const sendMail = async (to, otp) => {
     from: `"Artificial Intelligence Hub" <${process.env.EMAIL_USER}>`,
     to,
     subject: "OTP verification",
-    text: "please use the following OTP to verify your email",
+    text: "Please use the following OTP to verify your email",
     html: `
     <html>
       <div>
-        <p>please use the following OTP to verify your email</p>
+        <p>Please use the following OTP to verify your email.</p>
         <h1>${otp}</h1>
         <p>OTP is valid for 5 minutes</p>
         <p>Do not share this OTP with anyone</p>

@@ -8,16 +8,19 @@ import {
   generateImage,
 } from "../controllers/aiController.js";
 
+// Middleware
+import authenticate from "../middleware/authenticate.js";
+
 const aiRoutes = Router();
 
 // Text-to-speech AI routes
 aiRoutes.get("/voices", getVoices);
-aiRoutes.post("/generate-speech", textToSpeech);
+aiRoutes.post("/generate-speech", authenticate, textToSpeech);
 
 // Email AI routes
-aiRoutes.post("/generate-email", generateEmail);
+aiRoutes.post("/generate-email", authenticate, generateEmail);
 
 // Text to Image AI routes
-aiRoutes.post("/generate-image", generateImage);
+aiRoutes.post("/generate-image", authenticate, generateImage);
 
 export default aiRoutes;
