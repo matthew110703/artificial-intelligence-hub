@@ -17,6 +17,7 @@ import Hero from "./ui/Hero";
 import Feature from "./ui/Feature";
 import ImageContainer from "./ui/ImageContainer";
 import Badge from "./ui/Badge";
+import ImageCarousel from "./ui/ImageCarousel";
 
 export {
   Icon,
@@ -29,10 +30,12 @@ export {
   Feature,
   ImageContainer,
   Badge,
+  ImageCarousel,
 };
 
 // Forms
 import SignUpForm from "./forms/SignUpForm";
 import LoginForm from "./forms/LoginForm";
+import AccountForm from "./forms/AccountForm";
 
-export { SignUpForm, LoginForm };
+export { SignUpForm, LoginForm, AccountForm };

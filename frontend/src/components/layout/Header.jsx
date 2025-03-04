@@ -18,6 +18,7 @@ import Icon from "../ui/Icon";
 import { useSelector, useDispatch } from "react-redux";
 import { showToast } from "../../store/toastSlice";
 import { logout } from "../../store/authSlice";
+import { toggleModal } from "../../store/accountSlice";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -128,7 +129,13 @@ const Header = () => {
               className="bg-light dark:bg-dark dark:shadow-light absolute right-0 z-[9999] mt-2 flex min-w-48 flex-col gap-1 rounded-lg p-1 shadow"
             >
               <NavLink text={"Dashboard"} to="/dashboard" />
-              <NavLink text={"Account"} />
+              <NavLink
+                text={"Account"}
+                onClick={() => {
+                  dispatch(toggleModal());
+                  setShowDetails(false);
+                }}
+              />
               <Button
                 text={"Logout"}
                 className={"rounded-lg"}

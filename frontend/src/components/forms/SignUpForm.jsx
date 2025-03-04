@@ -57,6 +57,13 @@ const SignUpForm = () => {
     }));
   };
 
+  // Redirect User if already logged in
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
+
   // Validate Form
   const validateForm = async (e) => {
     e.preventDefault();

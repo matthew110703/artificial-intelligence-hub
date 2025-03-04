@@ -13,6 +13,7 @@ import {
   NotFound,
   Protected,
 } from "./pages";
+import { AccountForm } from "./components";
 
 // Redux
 import { useSelector } from "react-redux";
@@ -23,6 +24,7 @@ import { useEffect } from "react";
 const App = () => {
   const { theme } = useContext(ThemeContext);
   const toastState = useSelector((state) => state.toast);
+  const { showModal } = useSelector((state) => state.account);
 
   useEffect(() => {
     if (toastState.message) {
@@ -33,6 +35,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer autoClose={3000} theme={theme} />
+      {showModal && <AccountForm />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginAndSignUp />} />
@@ -45,7 +48,14 @@ const App = () => {
             </Protected>
           }
         />
-        <Route path="/chat" element={<Chatbot />} />
+        <Route
+          path="/chat"
+          element={
+            <Protected>
+              <Chatbot />
+            </Protected>
+          }
+        />
         <Route
           path="/vocalize"
           element={

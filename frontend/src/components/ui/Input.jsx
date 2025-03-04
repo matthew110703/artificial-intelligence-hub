@@ -27,6 +27,9 @@ const Input = ({
           alt={"icon"}
           size={adornmentSize}
           onClick={onStartAdornmentClick}
+          tooltipId={name}
+          tooltipContent={placeholder}
+          tooltipPosition="left"
         />
       )}
       <input

@@ -54,7 +54,7 @@ const LoginForm = () => {
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
-      dispatch(showToast({ message: error, type: "error" }));
+      dispatch(showToast({ message: error?.message || error, type: "error" }));
       setLoading(false);
     } finally {
       setLoading(false);

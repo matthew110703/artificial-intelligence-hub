@@ -95,3 +95,13 @@ export const checkUser = async () => {
     return false;
   }
 };
+
+export const resetPassword = async (payload) => {
+  try {
+    const res = await api.post("/auth/reset-password", payload);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
