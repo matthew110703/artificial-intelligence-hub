@@ -49,7 +49,6 @@ const AccountForm = () => {
   // Update User Account form handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
     setLoading(true);
 
     try {
@@ -78,14 +77,14 @@ const AccountForm = () => {
       <form
         hidden={isResetPassword}
         onSubmit={handleSubmit}
-        className="min-w-md rounded-lg bg-white p-4"
+        className="dark:bg-dark min-w-sm rounded-lg bg-white p-4 md:min-w-md"
       >
         <header className="flex items-center justify-between">
           <h2 className="font-primary text-xl font-bold md:text-2xl">
             Account
           </h2>
           <button type="button" onClick={() => dispatch(toggleModal())}>
-            <Icon src={closeIcon} alt={"Close"} size={24} />
+            <Icon src={closeIcon} alt={"Close"} size={24} invert />
           </button>
         </header>
 

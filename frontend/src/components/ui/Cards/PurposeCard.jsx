@@ -18,7 +18,7 @@ const PurposeCard = ({ title, icon, onClick, value }) => {
           {title}
         </h3>
       </button>
-      <input type="hidden" value={value} />
+      <input id="purpose" name="purpose" type="hidden" value={value} />
     </>
   );
 };

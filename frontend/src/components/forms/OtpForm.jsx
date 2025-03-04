@@ -79,7 +79,7 @@ const OtpForm = ({ onSubmit, onCancel }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-4"
+      className="dark:bg-dark flex min-w-sm flex-col items-center justify-center gap-4 rounded-lg bg-white p-4 md:min-w-md"
     >
       <h2 className="font-primary mb-2 text-xl font-bold md:text-2xl">
         OTP Verification

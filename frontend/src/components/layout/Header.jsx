@@ -85,6 +85,7 @@ const Header = () => {
           <Icon
             src={lightMode}
             alt={"light-mode"}
+            tooltipId={"light-mode"}
             tooltipContent={"Toggle Light Mode"}
             invert
           />
@@ -93,16 +94,23 @@ const Header = () => {
           <Icon
             src={darkMode}
             alt={"dark-mode"}
+            tooltipId={"dark-mode"}
             tooltipContent={"Toggle Dark Mode"}
             invert
           />
         </button>
 
         {/* source Code */}
-        <a role="button" href="">
+        <a
+          role="button"
+          href="https://github.com/matthew110703"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Icon
             src={sourceCode}
             alt={"source-code"}
+            tooltipId={"source-code"}
             tooltipContent={"Source Code"}
             invert
           />

@@ -1,7 +1,9 @@
+/* eslint-disable no-constant-binary-expression */
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://192.168.0.111:3000/api",
+  baseURL:
+    `${import.meta.env.VITE_SERVER_API}/api` || "http://192.168.0.111:3000/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -26,7 +28,6 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (err) => {
-    console.log(err);
     if (err?.response?.data?.error === "InvalidToken") {
       localStorage.removeItem("token");
     } else if (err?.response?.data?.error === "TokenExpired") {

@@ -138,9 +138,10 @@ const SignUpForm = () => {
   const handleResendOTP = async () => {
     const { success, message } = await sendOtp(form.email, true);
     if (!success) {
-      alert(message);
+      dispatch(showToast({ message, type: "error" }));
+      return;
     }
-    alert("OTP sent successfully");
+    dispatch(showToast({ message, type: success ? "success" : "error" }));
     setOtpResendTimeout(90);
   };
 

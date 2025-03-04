@@ -39,7 +39,7 @@ const ToolCard = ({ title, description, cover, icon, link }) => {
 
         {/* Footer (Actions) */}
         <footer className="mt-4 flex w-full items-center justify-between">
-          <a href="" className="dark:text-dark text-xs">
+          <a href="#" className="dark:text-dark text-xs">
             Learn More
           </a>
           <Link

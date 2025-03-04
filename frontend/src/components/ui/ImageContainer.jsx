@@ -13,12 +13,15 @@ const ImageContainer = ({ image, prompt }) => {
       <figcaption className="invisible absolute bottom-0 left-0 line-clamp-[10] max-h-full min-h-0 max-w-[500px] rounded-b-md bg-linear-to-t from-black/85 to-transparent px-2 text-sm leading-tight text-ellipsis text-white group-hover:visible">
         {prompt}
       </figcaption>
-      <button
+      <a
+        role="button"
         aria-label="Download Image"
         className="invisible absolute top-0 right-0 p-2 group-hover:visible"
+        href={image}
+        download="image.webp"
       >
         <Icon src={downloadIcon} size={32} alt={"Download Image"} />
-      </button>
+      </a>
     </figure>
   );
 };

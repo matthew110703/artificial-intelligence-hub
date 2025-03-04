@@ -1,5 +1,6 @@
 import api from "../lib/api";
 
+/** Get User profile */
 export const getUser = async () => {
   try {
     const res = await api.get("/user");
@@ -10,6 +11,7 @@ export const getUser = async () => {
   }
 };
 
+/** Update User profile */
 export const updateUser = async (payload) => {
   try {
     const res = await api.put("/user", payload);

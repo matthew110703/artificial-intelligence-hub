@@ -96,6 +96,11 @@ export const checkUser = async () => {
   }
 };
 
+/**
+ * Request password reset
+ * @param {Object} payload
+ * @returns {Promise}
+ */
 export const resetPassword = async (payload) => {
   try {
     const res = await api.post("/auth/reset-password", payload);

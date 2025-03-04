@@ -63,8 +63,6 @@ const Imagen = () => {
     setLoading(true);
     setGeneratedImages([]);
 
-    setTimeout(() => {}, 1000);
-
     try {
       const res = await generateImage(currentPrompt);
       setGeneratedImages(res.images);

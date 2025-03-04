@@ -65,7 +65,6 @@ const ResetPassword = ({ onCancel, email }) => {
       oldPassword: form.oldPassword,
       newPassword: form.newPassword,
     };
-    console.log(payload);
 
     // API Call
     try {
@@ -89,6 +88,7 @@ const ResetPassword = ({ onCancel, email }) => {
       if (error !== "Invalid OTP") {
         setInVerification(false);
       }
+    } finally {
       setForm({
         oldPassword: "",
         newPassword: "",
@@ -109,14 +109,14 @@ const ResetPassword = ({ onCancel, email }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-6 rounded-lg bg-white p-4"
+      className="dark:bg-dark flex min-w-sm flex-col gap-2 rounded-lg bg-white p-4 md:min-w-md"
     >
       <header className="flex items-center justify-between">
         <h2 className="font-primary text-xl font-bold md:text-2xl">
           Reset Password
         </h2>
         <button type="button" onClick={onCancel}>
-          <Icon src={closeIcon} alt={"Close"} size={24} />
+          <Icon src={closeIcon} alt={"Close"} size={24} invert />
         </button>
       </header>
       <main className="mt-4 flex flex-col gap-6">

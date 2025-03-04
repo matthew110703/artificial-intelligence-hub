@@ -214,6 +214,7 @@ const Vocalize = () => {
                     size={24}
                     invert
                     alt={"Play"}
+                    tooltipId={"preview"}
                     tooltipContent={"Voice Preview"}
                     onClick={playPreviewAudio}
                   />
@@ -228,6 +229,7 @@ const Vocalize = () => {
                     size={24}
                     invert
                     alt={"Settings"}
+                    tooltipId={"settings"}
                     tooltipContent={"Change Voice"}
                   />
                 </button>
