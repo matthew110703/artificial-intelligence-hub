@@ -7,7 +7,7 @@ export const emailSchema = {
   description: "Email Generation",
   type: SchemaType.OBJECT,
   properties: {
-    subject: {
+    subjects: {
       type: SchemaType.ARRAY,
       items: {
         type: SchemaType.STRING,
@@ -21,5 +21,5 @@ export const emailSchema = {
       description: "Email Body/Content (Don't include the subject here)",
     },
   },
-  required: ["subject", "body"],
+  required: ["subjects", "body"],
 };

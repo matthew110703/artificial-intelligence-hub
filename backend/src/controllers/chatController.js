@@ -26,16 +26,12 @@ export const socketAIChatManager = (io) => {
   // Middleware for authenticating users
   chatNamespace.use(async (socket, next) => {
     try {
-      const {
-        token,
-        chatId,
-        isGuest = false,
-        newChat = false,
-      } = socket.handshake.auth;
+      const { token, chatId, isGuest = false } = socket.handshake.auth;
 
       // Check if user is guest
       if (isGuest) {
         socket.isGuest = true;
+        socket.chatHistory = [];
         return next();
       }
 
@@ -59,13 +55,8 @@ export const socketAIChatManager = (io) => {
       socket.user = user;
 
       // Check if chat exists or create new chat
-      if (newChat) {
-        const chat = new Chat({
-          user: user._id,
-          history: [],
-        });
-        await chat.save();
-        socket.chatId = chat._id;
+      if (!chatId) {
+        socket.chatHistory = [];
         return next();
       }
 
@@ -75,7 +66,7 @@ export const socketAIChatManager = (io) => {
         "history.createdAt": 0,
         "history.updatedAt": 0,
         "history.parts._id": 0,
-      });
+      }).lean();
 
       if (!chat) {
         return next(new Error("ChatNotFound"));
@@ -88,9 +79,7 @@ export const socketAIChatManager = (io) => {
       socket.chatId = chat._id;
 
       // Load chat history to memory
-      for (const item of chat.history) {
-        chatHistory.push(item);
-      }
+      socket.chatHistory = chat.history;
 
       return next();
     } catch (error) {
@@ -109,15 +98,14 @@ export const socketAIChatManager = (io) => {
           console.log("New client connected");
 
         // Start chat
-        const chat = model.startChat({ history: chatHistory });
+        const chat = model.startChat({ history: socket.chatHistory });
 
         socket.on("message", async (message) => {
           // User's message
-          chatHistory.push({ role: "user", parts: [{ text: message }] }); // Save user's message to chat history
+          socket.chatHistory.push({ role: "user", parts: [{ text: message }] }); // Save user's message to chat history
 
           // Send Message to AI Model and get response stream
           const msgResult = await chat.sendMessageStream(message);
-
           try {
             let msg = ""; // For Saving complete message(response) from AI
             socket.emit("loading", true); // Send loading status to client
@@ -125,12 +113,12 @@ export const socketAIChatManager = (io) => {
             for await (const chunk of msgResult.stream) {
               const chunkText = chunk.text();
               msg += chunkText;
-              socket.emit("message", chunkText); // Send AI's message to client
             }
             socket.emit("loading", false); // Send loading status to client
+            socket.emit("message", msg); // Send AI's message to client
 
             // AI's message
-            chatHistory.push({ role: "model", parts: [{ text: msg }] }); // Save AI's message to chat history
+            socket.chatHistory.push({ role: "model", parts: [{ text: msg }] }); // Save AI's message to chat history
           } catch (error) {
             if (process.env.NODE_ENV === "development")
               console.error("Error", error);
@@ -142,16 +130,27 @@ export const socketAIChatManager = (io) => {
           if (process.env.NODE_ENV === "development")
             console.log("Client disconnected");
 
-          // If user is guest, don't save chat history
-          if (!socket.isGuest) {
+          // If user is guest, don't save chat history to database
+          if (socket.isGuest) return;
+          if (socket.chatHistory.length === 0) return;
+
+          // Save chat history to database
+          if (socket.chatId) {
             await Chat.findByIdAndUpdate(socket.chatId, {
-              history: chatHistory,
-            })
-              .then(() => console.log("Chat history saved"))
-              .catch((error) => {
-                if (process.env.NODE_ENV === "development")
-                  console.error("Error saving chat history", error);
-              });
+              $push: {
+                history: {
+                  $each: socket.chatHistory,
+                },
+              },
+            });
+            console.log("Chat history saved to database successfully");
+          } else {
+            const chat = new Chat({
+              user: socket.user._id,
+              history: socket.chatHistory,
+            });
+            await chat.save();
+            console.log("New Chat saved to database successfully");
           }
         });
       } catch (error) {
@@ -167,11 +166,10 @@ export const socketAIChatManager = (io) => {
  */
 export const getChats = async (req, res, next) => {
   try {
-    const chats = await Chat.find({ user: req.user._id }).populate(
-      "user",
-      "-password"
-    );
-    res.json(chats);
+    const chats = await Chat.find({ user: req.user._id })
+      .populate("user", "-password")
+      .sort({ updatedAt: -1 });
+    res.status(200).json(chats);
   } catch (error) {
     next(error);
   }
@@ -193,7 +191,7 @@ export const getChatById = async (req, res, next) => {
         message: `Instance with ID ${req.params.id} not found`,
       };
     }
-    res.json(chat);
+    res.status(200).json(chat);
   } catch (error) {
     next(error);
   }
