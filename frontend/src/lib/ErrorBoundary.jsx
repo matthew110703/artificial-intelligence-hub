@@ -14,9 +14,16 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div>
-          <h1>Something went wrong. Internal Server Error</h1>
+        <div className="flex h-screen flex-col items-center justify-center p-4">
+          <span className="font-primary text-4xl font-black">500</span>
+          <h1 className="font-primary text-xl font-bold lg:text-2xl">
+            Internal Server Error
+          </h1>
           <p>{this.state.error.toString()}</p>
+          <p className="text-sm lg:text-base">
+            Please refresh the page or contact the administrator if the problem
+            persists.
+          </p>
         </div>
       );
     }
