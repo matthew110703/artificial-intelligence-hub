@@ -1,25 +1,27 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, Suspense, lazy } from "react";
 import { ThemeContext } from "./lib/ThemeContext";
+
 // Pages
-import {
-  Home,
-  Dashboard,
-  Chatbot,
-  Vocalize,
-  Imagen,
-  Mailbot,
-  LoginAndSignUp,
-  NotFound,
-  Protected,
-} from "./pages";
-import { AccountForm } from "./components";
+import { Home, LoginAndSignUp, NotFound, Protected } from "./pages";
+
+// UI
+import { Loading } from "./components";
 
 // Redux
 import { useSelector } from "react-redux";
+
 // Toast
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
+
+// Lazy loading
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Chatbot = lazy(() => import("./pages/Chatbot"));
+const Vocalize = lazy(() => import("./pages/Vocalize"));
+const Imagen = lazy(() => import("./pages/Imagen"));
+const Mailbot = lazy(() => import("./pages/Mailbot"));
+const AccountForm = lazy(() => import("./components/forms/AccountForm"));
 
 const App = () => {
   const { theme } = useContext(ThemeContext);
@@ -30,12 +32,16 @@ const App = () => {
     if (toastState.message) {
       toast[toastState.type](toastState.message);
     }
-  }, [toastState]);
+  }, [toastState.type, toastState.message]);
 
   return (
     <Router>
       <ToastContainer autoClose={3000} theme={theme} />
-      {showModal && <AccountForm />}
+      {showModal && (
+        <Suspense fallback={<Loading />}>
+          <AccountForm />
+        </Suspense>
+      )}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginAndSignUp />} />
@@ -44,7 +50,9 @@ const App = () => {
           path="/dashboard"
           element={
             <Protected>
-              <Dashboard />
+              <Suspense fallback={<Loading />}>
+                <Dashboard />
+              </Suspense>
             </Protected>
           }
         />
@@ -52,7 +60,9 @@ const App = () => {
           path="/chat"
           element={
             <Protected>
-              <Chatbot />
+              <Suspense fallback={<Loading />}>
+                <Chatbot />
+              </Suspense>
             </Protected>
           }
         />
@@ -60,7 +70,9 @@ const App = () => {
           path="/vocalize"
           element={
             <Protected>
-              <Vocalize />
+              <Suspense fallback={<Loading />}>
+                <Vocalize />
+              </Suspense>
             </Protected>
           }
         />
@@ -68,7 +80,9 @@ const App = () => {
           path="/imagen"
           element={
             <Protected>
-              <Imagen />
+              <Suspense fallback={<Loading />}>
+                <Imagen />
+              </Suspense>
             </Protected>
           }
         />
@@ -76,7 +90,9 @@ const App = () => {
           path="/mailbot"
           element={
             <Protected>
-              <Mailbot />
+              <Suspense fallback={<Loading />}>
+                <Mailbot />
+              </Suspense>
             </Protected>
           }
         />
