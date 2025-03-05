@@ -4,7 +4,7 @@ import Mailbot from "./Mailbot";
 import Vocalize from "./Vocalize";
 import Chatbot from "./Chatbot";
 import Imagen from "./Imagen";
-import LoginAndSignUp from "./LoginAndSignup";
+import LoginAndSignUp from "./LoginAndSignUp";
 import NotFound from "./NotFound";
 import Protected from "./Protected";
 
