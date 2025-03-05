@@ -1,4 +1,3 @@
-import { lazy } from "react";
 // UI
 import Icon from "./Icon";
 
@@ -6,9 +5,9 @@ import Icon from "./Icon";
 import { botSecondary } from "../../assets";
 
 // Lazy loading ReactMarkdown and plugins
-const ReactMarkdown = lazy(() => import("react-markdown"));
-const remarkGfm = lazy(() => import("remark-gfm"));
-const rehypeHighlight = lazy(() => import("rehype-highlight"));
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github.css"; // For syntax highlighting
 
 const Bubble = ({ role, content }) => {
