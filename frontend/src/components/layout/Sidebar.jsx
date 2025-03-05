@@ -86,7 +86,7 @@ const Sidebar = ({ handleReconnect }) => {
 
       {/* Sidebar + Drawer */}
       <div
-        className={`dark:bg-dark/70 bg-light fixed top-0 left-0 z-50 h-screen w-64 p-5 shadow-lg transition-transform lg:block lg:w-[300px] ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:static lg:translate-x-0`}
+        className={`dark:bg-dark bg-light fixed top-0 left-0 z-50 h-screen w-64 p-5 shadow-lg transition-transform lg:block lg:w-[300px] ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:static lg:translate-x-0`}
       >
         {/* Close Button */}
         <button

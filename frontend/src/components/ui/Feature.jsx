@@ -57,7 +57,7 @@ const Feature = ({
         {preview(name)}
 
         {/* Content */}
-        <main className="space-y-4 text-start">
+        <main className="space-y-4 text-center lg:text-start">
           <header className="font-primary">
             <span className="dark:text-primary text-2xl font-bold drop-shadow-md lg:text-3xl">
               {name}
@@ -66,7 +66,7 @@ const Feature = ({
           </header>
 
           {/* About / Description  */}
-          <p className="text-start text-sm leading-tight font-light">
+          <p className="text-sm leading-tight font-light">
             {parse(textContent)}
           </p>
 
@@ -79,7 +79,7 @@ const Feature = ({
           <Button
             text={"Try Now!"}
             startIcon={ctaIcon(name)}
-            className={"mt-6"}
+            className={"mx-auto mt-6 min-w-sm lg:mx-0"}
             onClick={() => navigate(ctaLink)}
           />
         </main>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, lazy } from "react";
 
 // UI
 import { Badge, Container, Icon } from "../components";
@@ -13,7 +13,7 @@ import {
 } from "../assets";
 
 // Audio Player
-import AudioPlayer from "react-h5-audio-player";
+const AudioPlayer = lazy(() => import("react-h5-audio-player"));
 
 // Redux
 import { useDispatch } from "react-redux";
@@ -35,6 +35,7 @@ const Vocalize = () => {
 
   // Refs
   const previewRef = useRef(null);
+  const audioRef = useRef(null);
 
   // Fetch Voices
   useEffect(() => {
@@ -72,21 +73,30 @@ const Vocalize = () => {
 
   // Play Preview Audio
   const playPreviewAudio = useCallback(() => {
-    const audio = new Audio(voice?.preview_url);
+    if (!voice?.preview_url) return;
+
+    if (audioRef.current) {
+      audioRef.current?.pause();
+      audioRef.current.currentTime = 0;
+    }
+
+    const audio = new Audio(voice.preview_url);
+    audioRef.current = audio;
 
     const handleEnd = () => {
-      previewRef.current.blur();
+      previewRef.current?.blur();
+      audio.removeEventListener("ended", handleEnd);
+      audioRef.current = null;
     };
 
     audio.addEventListener("ended", handleEnd);
-    audio.play();
-    previewRef.current.focus();
-
-    return () => {
-      audio.removeEventListener("ended", handleEnd);
-      audio.pause();
-    };
-  }, [voice]);
+    audio
+      .play()
+      .catch((error) =>
+        dispatch(showToast({ message: error.message, type: "error" })),
+      );
+    previewRef.current?.focus();
+  }, [voice, dispatch]);
 
   return (
     <Container
@@ -204,10 +214,11 @@ const Vocalize = () => {
               </div>
               {/* Actions */}
               <div className="space-x-2">
+                {/* Preview */}
                 <button
                   ref={previewRef}
                   aria-label="Preview"
-                  className="hover:bg-primary/25 focus:bg-primary/25 rounded-lg p-1.5"
+                  className="hover:bg-primary/25 focus:bg-primary/25 rounded-lg p-1.5 disabled:cursor-not-allowed"
                 >
                   <Icon
                     src={playIcon}
@@ -219,6 +230,7 @@ const Vocalize = () => {
                     onClick={playPreviewAudio}
                   />
                 </button>
+                {/* Change Voice */}
                 <button
                   aria-label="Change Voice"
                   className="hover:bg-primary/25 rounded-lg p-1.5"

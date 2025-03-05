@@ -29,6 +29,7 @@ const Header = () => {
 
   // Redux
   const { isAuthenticated } = useSelector((state) => state.auth);
+  const {username} = useSelector((state) => state.account?.account)
 
   // Close the details when clicked outside
   useEffect(() => {
@@ -126,10 +127,11 @@ const Header = () => {
         <div className="relative">
           <Button
             id={"account"}
-            text={"Username"}
+            text={username || "Account"}
             startIcon={account}
             onClick={() => setShowDetails(!showDetails)}
             hidden={!isAuthenticated}
+            className={"max-w-[200px] text-ellipsis line-clamp-1"}
           />
           {showDetails && (
             <div

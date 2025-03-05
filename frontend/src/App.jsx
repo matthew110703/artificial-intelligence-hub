@@ -32,7 +32,7 @@ const App = () => {
     if (toastState.message) {
       toast[toastState.type](toastState.message);
     }
-  }, [toastState.type, toastState.message]);
+  }, [toastState]);
 
   return (
     <Router>
@@ -42,6 +42,7 @@ const App = () => {
           <AccountForm />
         </Suspense>
       )}
+      <Suspense fallback={<Loading />}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginAndSignUp />} />
@@ -50,9 +51,7 @@ const App = () => {
           path="/dashboard"
           element={
             <Protected>
-              <Suspense fallback={<Loading />}>
                 <Dashboard />
-              </Suspense>
             </Protected>
           }
         />
@@ -60,9 +59,7 @@ const App = () => {
           path="/chat"
           element={
             <Protected>
-              <Suspense fallback={<Loading />}>
                 <Chatbot />
-              </Suspense>
             </Protected>
           }
         />
@@ -70,9 +67,7 @@ const App = () => {
           path="/vocalize"
           element={
             <Protected>
-              <Suspense fallback={<Loading />}>
                 <Vocalize />
-              </Suspense>
             </Protected>
           }
         />
@@ -80,9 +75,7 @@ const App = () => {
           path="/imagen"
           element={
             <Protected>
-              <Suspense fallback={<Loading />}>
                 <Imagen />
-              </Suspense>
             </Protected>
           }
         />
@@ -90,14 +83,13 @@ const App = () => {
           path="/mailbot"
           element={
             <Protected>
-              <Suspense fallback={<Loading />}>
                 <Mailbot />
-              </Suspense>
             </Protected>
           }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
+          </Suspense>
     </Router>
   );
 };
