@@ -1,39 +1,64 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import "tailwindcss";
 
+@layer base {
+    button:not(:disabled),
+    [role="button"]:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+@theme {
+    /* Custom Colors */
+    --color-dark: #211951;
+    --color-light: #F0F3FF;
+    --color-primary: #15F5BA;
+
+    /* Custom Fonts */
+    --font-primary: 'Josefin Sans', sans-serif;
+    --font-secondary: 'Inconsolata', monospace;
+}
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 body {
-  background-image: url('/bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+    @apply bg-light text-dark dark:bg-dark dark:text-light font-secondary;
+} 
+
+/* Removing Custom Autofill Background Color */
+input:-webkit-autofill {
+    transition: background-color 5000s ease-in-out 0s;
 }
 
-@layer components {
-  .scale-transition {
-    @apply hover:scale-105 transition ease-in-out duration-500 hover:-translate-y-2
-  }
-
-  .ring-transition {
-    @apply hover:scale-105 transition ease-out duration-150 hover:ring hover:ring-current
-  }
+.hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar {
-  @apply w-1 h-1
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-accent-2 shadow-lg
+/* For Chrome, Edge, and Safari */
+.mini-scrollbar::-webkit-scrollbar {
+    width: 3px; /* Adjust as needed */
 }
 
-audio::-webkit-media-controls-panel {
-  @apply bg-accent-2
-}
-
-audio::-webkit-meadia-controls-play-button {
-  @apply bg-primary
+.mini-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-primary); /* Scrollbar color */
+    border-radius: 16px;
 }
 
 
+/* AI Response Chat Bubble Customization */
 
+/* For lists */
+.chat-bubble *:is(ul, ol) {
+    @apply space-y-2.5;
+}
+
+/* For Bold Characters  */
+.chat-bubble *:is(strong) {
+    @apply dark:text-primary;
+}
+
+/* For Code Blocks */
+.chat-bubble *:is(pre, code) {
+    @apply bg-gray-200 px-2 py-0.5 text-sm text-black rounded-lg;
+}
