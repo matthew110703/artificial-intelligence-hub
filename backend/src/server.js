@@ -13,7 +13,11 @@ const server = createServer(app);
 // Socket IO
 const io = new Server(server, {
   cors: {
-    origin: [process.env.CLIENT_URL, "http://192.168.0.111:5173"],
+    origin: [
+      process.env.CLIENT_URL,
+      "http://192.168.0.111:5173",
+      "http://localhost:5173",
+    ],
   },
 });
 

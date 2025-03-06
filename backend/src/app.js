@@ -1,16 +1,23 @@
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
+import helmet from "helmet";
 
 const app = express();
 
 // Middleware
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL, "http://192.168.0.111:5173"],
+    origin: [
+      process.env.CLIENT_URL,
+      "http://192.168.0.111:5173",
+      "http://localhost:5173",
+    ],
     credentials: true,
   })
 );
+app.use(helmet());
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 process.env.NODE_ENV === "development" && app.use(morgan("dev"));
@@ -45,6 +52,7 @@ app.use("/api/chat", chatRoutes);
 
 // Error Handler
 import errorHandler from "./middleware/errorHandler.js";
+import compression from "compression";
 app.use(errorHandler);
 
 export default app;
