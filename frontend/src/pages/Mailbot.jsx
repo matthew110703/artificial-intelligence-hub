@@ -109,7 +109,7 @@ const Mailbot = () => {
         {inGeneration && !loading && (
           <>
             {/* MailBot Output */}
-            <div className="flex max-w-sm min-w-sm flex-col gap-y-2.5 md:max-w-xl md:min-w-md">
+            <div className="flex min-w-sm flex-col gap-y-2.5 md:w-full md:max-w-xl lg:max-h-[60vh]">
               {/* Email Subject */}
               <label htmlFor="subject">
                 <p className="text-sm font-semibold">Subject:</p>
@@ -121,7 +121,7 @@ const Mailbot = () => {
                     className="field-sizing- w-full p-1.5 outline-none"
                     placeholder="Thank you for your recent purchase!"
                     ref={subjectRef}
-                    value={subjects[0] || ""}
+                    defaultValue={subjects[0] || ""}
                   />
                   <button aria-label="Re-generate">
                     <Icon
@@ -141,7 +141,7 @@ const Mailbot = () => {
                 <textarea
                   name="emailBody"
                   id="emailBody"
-                  className="field-sizing-content min-h-[400px] w-full p-1.5 outline-none"
+                  className="hide-scrollbar min-h-[500px] w-full p-1.5 outline-none"
                   placeholder={`Dear [Client's Name],\n\nThank you for choosing [Your Company Name] for your recent purchase. We are thrilled to have you as part of our community. We have a new product that we think you might like. Click the link below to explore it!\n\nBest,\n[Your Name]`}
                   value={emailBody}
                   onChange={(e) => setEmailBody(e.target.value)}
