@@ -43,20 +43,6 @@ export const textToSpeech = async (req, res, next) => {
       });
     }
 
-    // Set CORS headers
-    res.setHeader("Access-Control-Allow-Origin", process.env.CLIENT_URL || "*");
-    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-    res.setHeader(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-    res.setHeader("Access-Control-Allow-Credentials", "true");
-
-    // Handle preflight (OPTIONS) request
-    if (req.method === "OPTIONS") {
-      return res.sendStatus(204);
-    }
-
     // Response Type
     res.writeHead(200, {
       "Content-Type": "audio/mpeg",
