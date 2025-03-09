@@ -7,17 +7,11 @@ import compression from "compression";
 const app = express();
 
 // Middleware
-// app.use(
-//   cors({
-//     origin: [
-//       process.env.CLIENT_URL,
-//       "https://artificial-intelligence-hub.vercel.app",
-//       "http://192.168.0.111:5173",
-//       "http://localhost:5173",
-//     ],
-//   })
-// );
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+  })
+);
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
