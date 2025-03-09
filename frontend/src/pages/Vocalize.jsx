@@ -111,7 +111,6 @@ const Vocalize = () => {
         <p className="text-sm font-light">
           Turn Text into Natural-Sounding Speech, Powered with{" "}
           <strong className="dark:text-primary font-semibold">
-            {" "}
             ElevenLabs AI
           </strong>
         </p>
