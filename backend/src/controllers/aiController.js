@@ -43,16 +43,28 @@ export const textToSpeech = async (req, res, next) => {
       });
     }
 
-    // Response Type
-    res.writeHead(200, {
-      "Content-Type": "audio/mpeg",
-    });
-
     // Convert Text to Speech
     const audio = await client.textToSpeech.convert(voiceId, {
       text,
       model_id: "eleven_multilingual_v2",
       output_format: "mp3_44100_128",
+    });
+
+    if (!response || response.status >= 400) {
+      console.error(
+        "❌ ElevenLabs API Error:",
+        response.status,
+        response.statusText
+      );
+      return res.status(response.status).json({
+        message: "ElevenLabs API Error",
+        details: response.statusText,
+      });
+    }
+
+    // Response Type
+    res.writeHead(200, {
+      "Content-Type": "audio/mpeg",
     });
 
     audio.pipe(res);
