@@ -9,9 +9,17 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "*", // Allow all origins
+    origin: [
+      process.env.CLIENT_URL, // Ensure this is correctly set in `.env`
+      "http://192.168.0.111:5173",
+      "http://localhost:5173",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow cookies & Authorization headers
   })
 );
+
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
