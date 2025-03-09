@@ -2,6 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
+import compression from "compression";
 
 const app = express();
 
@@ -52,7 +53,6 @@ app.use("/api/chat", chatRoutes);
 
 // Error Handler
 import errorHandler from "./middleware/errorHandler.js";
-import compression from "compression";
 app.use(errorHandler);
 
 export default app;
