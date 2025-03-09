@@ -10,6 +10,7 @@ const app = express();
 app.use(
   cors({
     origin: [
+      "https://artificial-intelligence-hub.vercel.app",
       process.env.CLIENT_URL, // Ensure this is correctly set in `.env`
       "http://192.168.0.111:5173",
       "http://localhost:5173",
