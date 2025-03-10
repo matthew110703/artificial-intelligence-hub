@@ -43,6 +43,8 @@ export const textToSpeech = async (req, res, next) => {
       });
     }
 
+    console.log(process.env.ELEVENLABS_API_KEY);
+
     const client = new ElevenLabsClient({
       apiKey: process.env.ELEVENLABS_API_KEY,
     });
