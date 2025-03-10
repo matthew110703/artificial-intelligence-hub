@@ -1,15 +1,15 @@
 // Text-to-speech AI controller
 import { ElevenLabsClient } from "elevenlabs";
 
-const client = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY,
-});
-
 /**
  * Get all voices available
  */
 export const getVoices = async (req, res, next) => {
   try {
+    const client = new ElevenLabsClient({
+      apiKey: process.env.ELEVENLABS_API_KEY,
+    });
+
     const voices = await client.voices.getAll();
 
     // Filtering
@@ -42,6 +42,10 @@ export const textToSpeech = async (req, res, next) => {
         message: "Please provide voiceId and text",
       });
     }
+
+    const client = new ElevenLabsClient({
+      apiKey: process.env.ELEVENLABS_API_KEY,
+    });
 
     // Convert Text to Speech
     const audio = await client.textToSpeech.convert(voiceId, {
