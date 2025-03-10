@@ -57,9 +57,8 @@ const Vocalize = () => {
 
     try {
       const res = await generateSpeech(text, voice.id);
-      // setOutput(URL.createObjectURL(res));
       console.log(res);
-      setOutput(res);
+      setOutput(new Blob([res], { type: "audio/mpeg" }));
     } catch (error) {
       console.error(error);
       dispatch(showToast({ message: error.message, type: "error" }));
