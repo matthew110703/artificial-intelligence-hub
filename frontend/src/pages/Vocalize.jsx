@@ -57,7 +57,7 @@ const Vocalize = () => {
 
     try {
       const res = await generateSpeech(text, voice.id);
-      setOutput(URL.createObjectURL(res));
+      setOutput(URL.createObjectURL(await res));
     } catch (error) {
       console.error(error);
       dispatch(showToast({ message: error.message, type: "error" }));

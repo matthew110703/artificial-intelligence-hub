@@ -50,6 +50,8 @@ export const textToSpeech = async (req, res, next) => {
       output_format: "mp3_44100_128",
     });
 
+    console.log("🔊 Audio:", audio);
+
     if (!audio || audio.status >= 400) {
       console.error("❌ ElevenLabs API Error:", audio.status, audio.statusText);
       return res.status(audio.status).json({
