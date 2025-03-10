@@ -43,28 +43,35 @@ export const textToSpeech = async (req, res, next) => {
       });
     }
 
-    console.log(process.env.ELEVENLABS_API_KEY);
-
-    const client = new ElevenLabsClient({
-      apiKey: process.env.ELEVENLABS_API_KEY,
-    });
+    // const client = new ElevenLabsClient({
+    //   apiKey: process.env.ELEVENLABS_API_KEY,
+    // });
 
     // Convert Text to Speech
-    const audio = await client.textToSpeech.convert(voiceId, {
-      text,
-      model_id: "eleven_multilingual_v2",
-      output_format: "mp3_44100_128",
-    });
+    // const audio = await client.textToSpeech.convert(voiceId, {
+    //   text,
+    //   model_id: "eleven_multilingual_v2",
+    //   output_format: "mp3_44100_128",
+    // });
+
+    // console.log("🔊 Audio:", audio);
+
+    const audio = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "xi-api-key": process.env.ELEVENLABS_API_KEY,
+        },
+        body: JSON.stringify({
+          text,
+          model_id: "eleven_multilingual_v2",
+        }),
+      }
+    );
 
     console.log("🔊 Audio:", audio);
-
-    if (!audio || audio.status >= 400) {
-      console.error("❌ ElevenLabs API Error:", audio.status, audio.statusText);
-      return res.status(audio.status).json({
-        message: "ElevenLabs API Error",
-        details: audio.statusText,
-      });
-    }
 
     // Response Type
     res.writeHead(200, {
