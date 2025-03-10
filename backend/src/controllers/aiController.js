@@ -74,11 +74,13 @@ export const textToSpeech = async (req, res, next) => {
     console.log("🔊 Audio:", audio);
 
     // Response Type
-    res.writeHead(200, {
-      "Content-Type": "audio/mpeg",
-    });
+    // res.writeHead(200, {
+    //   "Content-Type": "audio/mpeg",
+    // });
 
-    audio.pipe(res);
+    // audio.pipe(res);
+
+    res.json(audio);
   } catch (error) {
     next(error);
   }
