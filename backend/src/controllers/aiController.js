@@ -68,6 +68,7 @@ export const textToSpeech = async (req, res, next) => {
           text,
           model_id: "eleven_multilingual_v2",
         }),
+        responseType: "blob",
       }
     );
 
