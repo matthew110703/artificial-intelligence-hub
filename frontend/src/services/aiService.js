@@ -55,7 +55,6 @@ export const generateSpeech = async (text, voiceId) => {
       { text, voiceId },
       { responseType: "blob" },
     );
-    console.log(res);
 
     return res.data;
   } catch (error) {
