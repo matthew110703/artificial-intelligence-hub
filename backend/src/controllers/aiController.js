@@ -1,9 +1,36 @@
 // Text-to-speech AI controller
 import { ElevenLabsClient } from "elevenlabs";
+import { createWriteStream } from "fs";
 
 const client = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY,
 });
+
+async function generateSpeech(text, voiceId) {
+  try {
+    if (!client) {
+      throw new Error({
+        statusCode: 500,
+        name: "Internal Server Error",
+        message: "Client not initialized",
+      });
+    }
+    const audio = await client.textToSpeech.convert(voiceId, {
+      text,
+      model_id: "eleven_multilingual_v2",
+      output_format: "mp3_44100_128",
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 1,
+        use_speaker_boost: true,
+      },
+    });
+
+    return audio;
+  } catch (error) {
+    throw error;
+  }
+}
 
 /**
  * Get all voices available
@@ -44,24 +71,17 @@ export const textToSpeech = async (req, res, next) => {
     }
 
     // Convert Text to Speech
-    const audio = await client.textToSpeech.convert(voiceId, {
-      text,
-      model_id: "eleven_multilingual_v2",
-      output_format: "mp3_44100_128",
-      voice_settings: {
-        stability: 0.5,
-        similarity_boost: 1,
-        use_speaker_boost: true,
-      },
-    });
+    const audio = await generateSpeech(text, voiceId);
 
     // Response Type
     res.writeHead(200, {
       "Content-Type": "audio/mpeg",
     });
 
+    // Pipe the audio
     audio.pipe(res);
   } catch (error) {
+    console.error("Error in textToSpeech:", error); // Log the error
     next(error);
   }
 };
