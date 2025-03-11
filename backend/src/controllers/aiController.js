@@ -6,18 +6,23 @@ const client = new ElevenLabsClient({
 });
 
 async function generateSpeech(text, voiceId) {
-  const audio = await client.textToSpeech.convert(voiceId, {
-    text,
-    model_id: "eleven_multilingual_v2",
-    output_format: "mp3_44100_128",
-    voice_settings: {
-      stability: 0.5,
-      similarity_boost: 1,
-      use_speaker_boost: true,
-    },
-  });
+  try {
+    const audio = await client.textToSpeech.convert(voiceId, {
+      text,
+      model_id: "eleven_multilingual_v2",
+      output_format: "mp3_44100_128",
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 1,
+        use_speaker_boost: true,
+      },
+    });
 
-  return audio;
+    return audio;
+  } catch (error) {
+    console.error("Error in generateSpeech:", error);
+    throw error;
+  }
 }
 
 /**
@@ -58,6 +63,9 @@ export const textToSpeech = async (req, res, next) => {
       });
     }
 
+    console.log("Voice ID:", voiceId);
+    console.log("Text:", text);
+
     // Convert Text to Speech
     const audio = await generateSpeech(text, voiceId);
 
@@ -68,6 +76,7 @@ export const textToSpeech = async (req, res, next) => {
 
     audio.pipe(res);
   } catch (error) {
+    console.error("Error in textToSpeech:", error); // Log the error
     next(error);
   }
 };
