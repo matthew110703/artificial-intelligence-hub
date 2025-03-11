@@ -65,6 +65,7 @@ export const textToSpeech = async (req, res, next) => {
 
     console.log("Voice ID:", voiceId);
     console.log("Text:", text);
+    console.log("API Key:", process.env.ELEVENLABS_API_KEY); //Added Log.
 
     // Convert Text to Speech
     const audio = await generateSpeech(text, voiceId);
