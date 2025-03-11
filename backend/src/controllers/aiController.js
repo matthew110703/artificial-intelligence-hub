@@ -5,6 +5,21 @@ const client = new ElevenLabsClient({
   apiKey: process.env.ELEVENLABS_API_KEY,
 });
 
+async function generateSpeech(text, voiceId) {
+  const audio = await client.textToSpeech.convert(voiceId, {
+    text,
+    model_id: "eleven_multilingual_v2",
+    output_format: "mp3_44100_128",
+    voice_settings: {
+      stability: 0.5,
+      similarity_boost: 1,
+      use_speaker_boost: true,
+    },
+  });
+
+  return audio;
+}
+
 /**
  * Get all voices available
  */
@@ -44,16 +59,7 @@ export const textToSpeech = async (req, res, next) => {
     }
 
     // Convert Text to Speech
-    const audio = await client.textToSpeech.convert(voiceId, {
-      text,
-      model_id: "eleven_multilingual_v2",
-      output_format: "mp3_44100_128",
-      voice_settings: {
-        stability: 0.5,
-        similarity_boost: 1,
-        use_speaker_boost: true,
-      },
-    });
+    const audio = await generateSpeech(text, voiceId);
 
     // Response Type
     res.writeHead(200, {
