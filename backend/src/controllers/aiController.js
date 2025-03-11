@@ -48,17 +48,12 @@ export const textToSpeech = async (req, res, next) => {
       text,
       model_id: "eleven_multilingual_v2",
       output_format: "mp3_44100_128",
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 1,
+        use_speaker_boost: true,
+      },
     });
-
-    console.log("🔊 Audio:", audio);
-
-    if (!audio || audio.status >= 400) {
-      console.error("❌ ElevenLabs API Error:", audio.status, audio.statusText);
-      return res.status(audio.status).json({
-        message: "ElevenLabs API Error",
-        details: audio.statusText,
-      });
-    }
 
     // Response Type
     res.writeHead(200, {

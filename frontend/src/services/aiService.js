@@ -53,7 +53,7 @@ export const generateSpeech = async (text, voiceId) => {
     const res = await api.post(
       "/ai/generate-speech",
       { text, voiceId },
-      { responseType: "blob", mode: "cors" },
+      { responseType: "blob" },
     );
     return res.data;
   } catch (error) {
