@@ -112,7 +112,12 @@ const SignUpForm = () => {
       localStorage.setItem("token", res.token);
 
       // Dispatch
-      dispatch(showToast({ message: res.message, type: "success" }));
+      dispatch(
+        showToast({
+          message: "Account created successfully!",
+          type: "success",
+        }),
+      );
 
       // Redirect to login page
       navigate("/dashboard");

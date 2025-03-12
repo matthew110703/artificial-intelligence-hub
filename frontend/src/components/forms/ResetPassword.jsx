@@ -71,7 +71,7 @@ const ResetPassword = ({ onCancel, email }) => {
       const res = await resetPassword(payload);
       dispatch(
         showToast({
-          message: res?.message || "Password reset successfully",
+          message: res?.message || "Password reset successful",
           type: "success",
         }),
       );
