@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "../lib/api";
 
 /**
@@ -50,12 +51,31 @@ export const getVoiceList = async () => {
  */
 export const generateSpeech = async (text, voiceId) => {
   try {
-    const res = await api.post(
-      "/ai/generate-speech",
-      { text, voiceId },
-      { responseType: "blob" },
-    );
+    const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
 
+    const res = await axios.post(
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
+      {
+        text,
+        model_id: "eleven_multilingual_v2",
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 1,
+          use_speaker_boost: true,
+        },
+      },
+      {
+        params: {
+          output_format: "mp3_44100_128",
+        },
+        headers: {
+          Accept: "audio/mpeg",
+          "Content-Type": "application/json",
+          "xi-api-key": apiKey,
+        },
+        responseType: "blob",
+      },
+    );
     return res.data;
   } catch (error) {
     console.error(error);
