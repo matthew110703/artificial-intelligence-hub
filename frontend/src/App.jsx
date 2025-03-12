@@ -3,7 +3,7 @@ import { useContext, Suspense, lazy } from "react";
 import { ThemeContext } from "./lib/ThemeContext";
 
 // Pages
-import { Home, LoginAndSignUp, NotFound, Protected, Vocalize } from "./pages";
+import { Home, LoginAndSignUp, NotFound, Protected } from "./pages";
 
 // UI
 import { Loading } from "./components";
@@ -18,7 +18,7 @@ import { useEffect } from "react";
 // Lazy loading
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Chatbot = lazy(() => import("./pages/Chatbot"));
-// const Vocalize = lazy(() => import("./pages/Vocalize"));
+const Vocalize = lazy(() => import("./pages/Vocalize"));
 const Imagen = lazy(() => import("./pages/Imagen"));
 const Mailbot = lazy(() => import("./pages/Mailbot"));
 const AccountForm = lazy(() => import("./components/forms/AccountForm"));
