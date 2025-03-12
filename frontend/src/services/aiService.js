@@ -52,6 +52,9 @@ export const getVoiceList = async () => {
 export const generateSpeech = async (text, voiceId) => {
   try {
     const apiKey = import.meta.env.VITE_ELEVENLABS_API_KEY;
+    if (!apiKey) {
+      throw new Error("Eleven Labs API Key is required");
+    }
 
     const res = await axios.post(
       `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
