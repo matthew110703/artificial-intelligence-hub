@@ -47,7 +47,9 @@ const LoginForm = () => {
     try {
       const res = await signIn({ email, username, password });
       // Success
-      dispatch(showToast({ message: res.message, type: "success" }));
+      dispatch(
+        showToast({ message: "Logged In successfully!", type: "success" }),
+      );
       // Store Token
       localStorage.setItem("token", res.token);
       // Redirect to Dashboard
