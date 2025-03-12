@@ -3,7 +3,7 @@ import { useContext, Suspense, lazy } from "react";
 import { ThemeContext } from "./lib/ThemeContext";
 
 // Pages
-import { Home, LoginAndSignUp, NotFound, Protected } from "./pages";
+import { Home, LoginAndSignUp, NotFound, Protected, Vocalize } from "./pages";
 
 // UI
 import { Loading } from "./components";
@@ -18,7 +18,7 @@ import { useEffect } from "react";
 // Lazy loading
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Chatbot = lazy(() => import("./pages/Chatbot"));
-const Vocalize = lazy(() => import("./pages/Vocalize"));
+// const Vocalize = lazy(() => import("./pages/Vocalize"));
 const Imagen = lazy(() => import("./pages/Imagen"));
 const Mailbot = lazy(() => import("./pages/Mailbot"));
 const AccountForm = lazy(() => import("./components/forms/AccountForm"));
@@ -43,53 +43,53 @@ const App = () => {
         </Suspense>
       )}
       <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginAndSignUp />} />
-        <Route path="/signup" element={<LoginAndSignUp />} />
-        <Route
-          path="/dashboard"
-          element={
-            <Protected>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<LoginAndSignUp />} />
+          <Route path="/signup" element={<LoginAndSignUp />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Protected>
                 <Dashboard />
-            </Protected>
-          }
-        />
-        <Route
-          path="/chat"
-          element={
-            <Protected>
+              </Protected>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <Protected>
                 <Chatbot />
-            </Protected>
-          }
-        />
-        <Route
-          path="/vocalize"
-          element={
-            <Protected>
+              </Protected>
+            }
+          />
+          <Route
+            path="/vocalize"
+            element={
+              <Protected>
                 <Vocalize />
-            </Protected>
-          }
-        />
-        <Route
-          path="/imagen"
-          element={
-            <Protected>
+              </Protected>
+            }
+          />
+          <Route
+            path="/imagen"
+            element={
+              <Protected>
                 <Imagen />
-            </Protected>
-          }
-        />
-        <Route
-          path="/mailbot"
-          element={
-            <Protected>
+              </Protected>
+            }
+          />
+          <Route
+            path="/mailbot"
+            element={
+              <Protected>
                 <Mailbot />
-            </Protected>
-          }
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-          </Suspense>
+              </Protected>
+            }
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </Router>
   );
 };
