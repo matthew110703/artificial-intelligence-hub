@@ -6,6 +6,11 @@
     [role="button"]:not(:disabled) {
         cursor: pointer;
     }
+
+    button:is([disabled], [aria-disabled=true]),
+    [role="button"]:is([disabled], [aria-disabled=true]) {
+        cursor: not-allowed;
+    }
 }
 
 @theme {

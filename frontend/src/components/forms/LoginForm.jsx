@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 // UI
 import Button from "../ui/Button";
 import Input from "../ui/Input";
+import Branding from "../ui/Branding";
 
 // Icons
 import {
@@ -74,9 +75,8 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
         className="dark:bg-primary/15 flex flex-col items-center justify-center gap-4 rounded-lg p-4 md:p-8 lg:shadow-inner"
       >
-        <h2 className="font-primary mb-2 text-2xl font-bold md:text-4xl">
-          Login
-        </h2>
+        {/* Branding */}
+        <Branding />
 
         {/* Username or Email */}
         <Input
@@ -113,7 +113,7 @@ const LoginForm = () => {
           Forgot Password?
         </Link>
         {/* Login Button */}
-        <div className="mt-4 space-y-1">
+        <div className="mt-4 space-y-2">
           <Button
             type="submit"
             text={"Login"}
@@ -121,11 +121,11 @@ const LoginForm = () => {
             className={"min-w-sm"}
             loading={loading}
           />
-          <p className="text-center text-sm">
+          <p className="text-center">
             Don't have an account?{" "}
             <Link
               to="/signup"
-              className="text-dark dark:text-primary font-semibold underline"
+              className="text-dark dark:text-primary font-semibold hover:underline"
             >
               Signup
             </Link>

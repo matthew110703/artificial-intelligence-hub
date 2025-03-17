@@ -10,6 +10,10 @@ import { setAccount } from "../store/accountSlice";
 // Services
 import { checkUser } from "../services/authService";
 import { getUser } from "../services/userService";
+import { Loading } from "../components";
+
+// Motion
+import { motion } from "motion/react";
 
 const Protected = ({ children }) => {
   const navigate = useNavigate();
@@ -58,11 +62,18 @@ const Protected = ({ children }) => {
   }, [dispatch, location.pathname, navigate, token]);
 
   return isAuthenticated | isGuest ? (
-    children
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
+      {children}
+    </motion.div>
   ) : (
-    <div className="font-primary flex h-screen flex-col items-center justify-center text-2xl font-bold">
-      Loading ...
-    </div>
+    <Loading />
   );
 };
 

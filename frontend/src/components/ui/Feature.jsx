@@ -11,6 +11,10 @@ import VocalizePreview from "./previews/VocalizePreview";
 
 import parse from "html-react-parser";
 
+// Animation
+import { motion } from "motion/react";
+import { fadeIn, fadeInUp, zoomInFade } from "../../lib/motion";
+
 const Feature = ({
   name,
   headline,
@@ -53,27 +57,53 @@ const Feature = ({
       <div
         className={`dark:bg-primary/5 flex flex-col items-center justify-center gap-8 rounded-lg p-4 shadow-gray-300 md:p-8 lg:min-h-[300px] lg:shadow-inner ${disableReverse ? "lg:flex-row" : "lg:flex-row-reverse"}`}
       >
-        {/* Preview */}
-        {preview(name)}
+        <motion.figure
+          variants={zoomInFade}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          className="w-full"
+        >
+          {/* Preview */}
+          {preview(name)}
+        </motion.figure>
 
         {/* Content */}
         <main className="space-y-4 text-center lg:text-start">
-          <header className="font-primary">
+          <motion.header
+            variants={fadeIn}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="font-primary"
+          >
             <span className="dark:text-primary text-2xl font-bold drop-shadow-md lg:text-3xl">
               {name}
             </span>
             <p className="text-md lg:text-lg">{headline}</p>
-          </header>
+          </motion.header>
 
           {/* About / Description  */}
-          <p className="text-sm leading-tight font-light">
+          <motion.p
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="text-sm leading-tight font-light"
+          >
             {parse(textContent)}
-          </p>
+          </motion.p>
 
           {/* Tagline  */}
-          <p className="dark:text-primary font-primary text-md font-semibold underline-offset-4 lg:underline">
+          <motion.p
+            variants={fadeIn}
+            initial="initial"
+            whileInView={"animate"}
+            viewport={{ once: true }}
+            className="dark:text-primary font-primary text-md font-semibold underline-offset-4 lg:underline"
+          >
             {tagline}
-          </p>
+          </motion.p>
 
           {/* CTA */}
           <Button

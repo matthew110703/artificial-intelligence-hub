@@ -22,6 +22,10 @@ import { showToast } from "../../store/toastSlice";
 // Services
 import { resetPassword } from "../../services/authService";
 
+// Motion
+import { motion } from "motion/react";
+import { modalAnimatioon } from "../../lib/motion";
+
 const ResetPassword = ({ onCancel, email }) => {
   // Redux
   const dispatch = useDispatch();
@@ -107,9 +111,11 @@ const ResetPassword = ({ onCancel, email }) => {
   }
 
   return (
-    <form
+    <motion.form
       onSubmit={handleSubmit}
       className="dark:bg-dark flex min-w-sm flex-col gap-2 rounded-lg bg-white p-4 md:min-w-md"
+      variants={modalAnimatioon}
+      {...modalAnimatioon}
     >
       <header className="flex items-center justify-between">
         <h2 className="font-primary text-xl font-bold md:text-2xl">
@@ -174,7 +180,7 @@ const ResetPassword = ({ onCancel, email }) => {
           className={"my-4 min-w-sm"}
         />
       </main>
-    </form>
+    </motion.form>
   );
 };
 

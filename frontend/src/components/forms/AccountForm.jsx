@@ -23,6 +23,10 @@ import { updateUser } from "../../services/userService";
 // Form
 import ResetPassword from "./ResetPassword";
 
+// Motion
+import { AnimatePresence, motion } from "motion/react";
+import { modalAnimatioon } from "../../lib/motion";
+
 const AccountForm = () => {
   // Redux
   const dispatch = useDispatch();
@@ -74,10 +78,12 @@ const AccountForm = () => {
 
   return (
     <div className="absolute inset-0 z-10 flex h-screen flex-col items-center justify-center bg-black/50">
-      <form
+      <motion.form
         hidden={isResetPassword}
         onSubmit={handleSubmit}
         className="dark:bg-dark min-w-sm rounded-lg bg-white p-4 md:min-w-md"
+        variants={modalAnimatioon}
+        {...modalAnimatioon}
       >
         <header className="flex items-center justify-between">
           <h2 className="font-primary text-xl font-bold md:text-2xl">
@@ -157,13 +163,15 @@ const AccountForm = () => {
             <Button type="submit" text={"Save Changes"} loading={loading} />
           </div>
         </footer>
-      </form>
-      {isResetPassword && (
-        <ResetPassword
-          onCancel={() => dispatch(toggleModal())}
-          email={account.email}
-        />
-      )}
+      </motion.form>
+      <AnimatePresence>
+        {isResetPassword && (
+          <ResetPassword
+            onCancel={() => dispatch(toggleModal())}
+            email={account.email}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

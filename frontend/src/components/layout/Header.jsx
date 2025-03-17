@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../lib/ThemeContext";
 
@@ -20,36 +20,31 @@ import { showToast } from "../../store/toastSlice";
 import { logout } from "../../store/authSlice";
 import { toggleModal } from "../../store/accountSlice";
 
+// Animation
+import { AnimatePresence, motion } from "motion/react";
+import { fadeInDown, dropdownAnim } from "../../lib/motion";
+
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const detailsRef = useRef(null);
 
   const { toggleTheme } = useContext(ThemeContext);
   const [showDetails, setShowDetails] = useState(false);
 
   // Redux
   const { isAuthenticated } = useSelector((state) => state.auth);
-  const {username} = useSelector((state) => state.account?.account)
+  const { username } = useSelector((state) => state.account?.account);
 
   // Close the details when clicked outside
   useEffect(() => {
-    const element = document.getElementById("account");
-    const details = document.getElementById("detail");
-    const closeDetails = (e) => {
-      if (
-        showDetails &&
-        !element.contains(e.target) &&
-        !details.contains(e.target)
-      ) {
+    const handleClickOutside = (e) => {
+      if (detailsRef.current && !detailsRef.current.contains(e.target)) {
         setShowDetails(false);
       }
     };
-
-    window.addEventListener("click", closeDetails);
-
-    return () => {
-      window.removeEventListener("click", closeDetails);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showDetails]);
 
   const handleLogout = () => {
@@ -67,7 +62,13 @@ const Header = () => {
   };
 
   return (
-    <header className="text-dark font-primary dark:text-light shadow-primary container mx-auto flex w-full items-center justify-between rounded-lg px-4 py-2 shadow-sm">
+    <motion.header
+      variants={fadeInDown}
+      initial="initial"
+      animate="animate"
+      viewport={{ once: true }}
+      className="text-dark font-primary dark:text-light shadow-primary container mx-auto flex w-full items-center justify-between rounded-lg px-4 py-2 shadow-sm"
+    >
       {/* Brand Logo */}
       <Link
         role="button"
@@ -131,31 +132,35 @@ const Header = () => {
             startIcon={account}
             onClick={() => setShowDetails(!showDetails)}
             hidden={!isAuthenticated}
-            className={"max-w-[200px] text-ellipsis line-clamp-1"}
+            className={"line-clamp-1 max-w-[200px] text-ellipsis"}
           />
-          {showDetails && (
-            <div
-              id="detail"
-              className="bg-light dark:bg-dark dark:shadow-light absolute right-0 z-[9999] mt-2 flex min-w-48 flex-col gap-1 rounded-lg p-1 shadow"
-            >
-              <NavLink text={"Dashboard"} to="/dashboard" />
-              <NavLink
-                text={"Account"}
-                onClick={() => {
-                  dispatch(toggleModal());
-                  setShowDetails(false);
-                }}
-              />
-              <Button
-                text={"Logout"}
-                className={"rounded-lg"}
-                onClick={handleLogout}
-              />
-            </div>
-          )}
+          <AnimatePresence>
+            {showDetails && (
+              <motion.div
+                ref={detailsRef}
+                className="bg-light dark:bg-dark dark:shadow-light absolute right-0 z-[9999] mt-2 flex min-w-48 flex-col gap-1 rounded-lg p-1 shadow"
+                variants={dropdownAnim}
+                {...dropdownAnim}
+              >
+                <NavLink text={"Dashboard"} to="/dashboard" />
+                <NavLink
+                  text={"Account"}
+                  onClick={() => {
+                    dispatch(toggleModal());
+                    setShowDetails(false);
+                  }}
+                />
+                <Button
+                  text={"Logout"}
+                  className={"rounded-lg"}
+                  onClick={handleLogout}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 

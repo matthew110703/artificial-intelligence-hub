@@ -13,6 +13,10 @@ import { showToast } from "../store/toastSlice";
 // Service
 import { generateImage } from "../services/aiService";
 
+// Motion
+import { AnimatePresence, motion } from "motion/react";
+import { miniSpinner, fadeInUp, imageFullscreen } from "../lib/motion";
+
 const Imagen = () => {
   // Hooks
   const dispatch = useDispatch();
@@ -23,6 +27,7 @@ const Imagen = () => {
   const [inGeneration, setInGeneration] = useState(false);
   const [generatedImages, setGeneratedImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   // Shuffle Images Preview (on mount)
   const shuffledImages = useMemo(() => {
@@ -90,17 +95,21 @@ const Imagen = () => {
       contentClassname={"flex flex-col items-center gap-8 md:gap-6"}
     >
       <h1 className="text-xl font-bold">
-        {loading ? "Loading..." : "Create Stunning Visuals in Seconds!"}
+        {loading ? (
+          <span>Generating Images...</span>
+        ) : (
+          "Create Stunning Visuals in Seconds!"
+        )}
       </h1>
 
       {/* Preview Images */}
       {!inGeneration && (
         <>
           {/* Preview Images Grid */}
-          <section className="hidden max-w-full gap-4 overflow-x-auto scroll-smooth px-2 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3">
-            {shuffledImages.map((image) => (
+          <section className="hidden max-w-full gap-4 px-2 md:mb-8 md:grid md:grid-cols-2 lg:grid lg:grid-cols-3">
+            {shuffledImages.map((image, idx) => (
               <ImageContainer
-                key={image.src}
+                key={idx}
                 image={image.src}
                 prompt={image.prompt}
               />
@@ -139,7 +148,20 @@ const Imagen = () => {
                     className="h-full w-fit rounded-lg"
                     onError={(e) => (e.target.style.display = "none")} // Hide broken images
                     loading="lazy"
+                    onClick={() => setIsFullScreen(true)}
                   />
+                  <AnimatePresence>
+                    {isFullScreen && (
+                      <motion.img
+                        src={image.origin}
+                        alt="FullScreen Image"
+                        className="fixed inset-0 z-50 h-full w-full bg-black/50 object-contain object-center bg-blend-darken"
+                        onClick={() => setIsFullScreen(false)}
+                        variants={imageFullscreen}
+                        {...imageFullscreen}
+                      />
+                    )}
+                  </AnimatePresence>
                 </figure>
 
                 {/* Mobile View */}
@@ -162,7 +184,12 @@ const Imagen = () => {
 
       {/* Prompt Input */}
       <form onSubmit={handlePromptSubmit} className="mt-8 flex justify-center">
-        <div className="ring-primary shadow-primary bg-light static bottom-4 mx-auto flex max-w-sm min-w-sm gap-x-2 rounded-lg p-1.5 shadow-sm focus-within:shadow-md focus-within:ring-2 md:fixed md:bottom-8 lg:max-w-[50%] lg:min-w-[50%]">
+        <motion.div
+          className="ring-primary shadow-primary bg-light static bottom-4 mx-auto flex max-w-sm min-w-sm gap-x-2 rounded-lg p-1.5 shadow-sm focus-within:shadow-md focus-within:ring-2 md:fixed md:bottom-8 lg:max-w-[50%] lg:min-w-[50%]"
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+        >
           <textarea
             name="prompt"
             id="prompt"
@@ -193,14 +220,22 @@ const Imagen = () => {
             disabled={!promptText}
             aria-label="Submit"
           >
-            <Icon
-              src={sparks}
-              size={24}
-              alt={"Generate"}
-              tooltipContent="Submit"
-            />
+            {loading ? (
+              <motion.div
+                variants={miniSpinner}
+                initial="initial"
+                animate="animate"
+              ></motion.div>
+            ) : (
+              <Icon
+                src={sparks}
+                size={24}
+                alt={"Generate"}
+                tooltipContent="Submit"
+              />
+            )}
           </button>
-        </div>
+        </motion.div>
       </form>
     </Container>
   );

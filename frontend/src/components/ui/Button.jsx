@@ -1,5 +1,9 @@
 import Icon from "./Icon";
 
+// Animation
+import { motion } from "motion/react";
+import { buttonAnimation } from "../../lib/motion";
+
 const Button = ({
   id,
   type = "button",
@@ -15,21 +19,38 @@ const Button = ({
   ...rest
 }) => {
   return (
-    <button
+    <motion.button
+      variants={buttonAnimation}
+      initial="initial"
+      whileInView={"animate"}
+      whileHover="hover"
+      whileTap="tap"
       id={id || text}
       name={text}
       type={type}
       disabled={disabled}
-      className={`${className} bg-primary font-primary text-dark flex items-end justify-center gap-x-2 rounded-3xl px-4 py-2 text-sm font-semibold shadow-2xl transition-all duration-150 hover:scale-105 hover:brightness-110 active:scale-95 ${disabled && "cursor-not-allowed opacity-70"}`}
+      className={`${className} bg-primary font-primary text-dark flex items-end justify-center gap-x-2 rounded-3xl px-4 py-2 text-sm font-semibold shadow-2xl ${disabled && "cursor-not-allowed opacity-70"}`}
       onClick={onClick}
       aria-label={text}
       hidden={hidden || text === ""}
       {...rest}
     >
-      {startIcon && <Icon src={startIcon} alt={"icon"} size={iconSize} />}
+      {!loading && startIcon && (
+        <Icon src={startIcon} alt={"icon"} size={iconSize} />
+      )}
+      {loading && (
+        <motion.span
+          animate={{
+            rotate: loading ? 360 : 0,
+            borderTopWidth: [2, 4],
+          }}
+          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          className="border-dark h-4 w-4 self-center rounded-full border-t-2 border-r-2"
+        ></motion.span>
+      )}
       {text && loading ? "Loading..." : text}
       {endIcon && <Icon src={startIcon} alt={"icon"} size={iconSize} />}
-    </button>
+    </motion.button>
   );
 };
 

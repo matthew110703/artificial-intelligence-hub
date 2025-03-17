@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { useContext, Suspense, lazy } from "react";
 import { ThemeContext } from "./lib/ThemeContext";
 
@@ -23,6 +28,63 @@ const Imagen = lazy(() => import("./pages/Imagen"));
 const Mailbot = lazy(() => import("./pages/Mailbot"));
 const AccountForm = lazy(() => import("./components/forms/AccountForm"));
 
+// Motion
+import { AnimatePresence } from "motion/react";
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.key}>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginAndSignUp />} />
+        <Route path="/signup" element={<LoginAndSignUp />} />
+        <Route
+          path="/dashboard"
+          element={
+            <Protected>
+              <Dashboard />
+            </Protected>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <Protected>
+              <Chatbot />
+            </Protected>
+          }
+        />
+        <Route
+          path="/vocalize"
+          element={
+            <Protected>
+              <Vocalize />
+            </Protected>
+          }
+        />
+        <Route
+          path="/imagen"
+          element={
+            <Protected>
+              <Imagen />
+            </Protected>
+          }
+        />
+        <Route
+          path="/mailbot"
+          element={
+            <Protected>
+              <Mailbot />
+            </Protected>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 const App = () => {
   const { theme } = useContext(ThemeContext);
   const toastState = useSelector((state) => state.toast);
@@ -43,52 +105,7 @@ const App = () => {
         </Suspense>
       )}
       <Suspense fallback={<Loading />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginAndSignUp />} />
-          <Route path="/signup" element={<LoginAndSignUp />} />
-          <Route
-            path="/dashboard"
-            element={
-              <Protected>
-                <Dashboard />
-              </Protected>
-            }
-          />
-          <Route
-            path="/chat"
-            element={
-              <Protected>
-                <Chatbot />
-              </Protected>
-            }
-          />
-          <Route
-            path="/vocalize"
-            element={
-              <Protected>
-                <Vocalize />
-              </Protected>
-            }
-          />
-          <Route
-            path="/imagen"
-            element={
-              <Protected>
-                <Imagen />
-              </Protected>
-            }
-          />
-          <Route
-            path="/mailbot"
-            element={
-              <Protected>
-                <Mailbot />
-              </Protected>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatedRoutes />
       </Suspense>
     </Router>
   );

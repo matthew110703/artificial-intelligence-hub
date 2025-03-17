@@ -18,6 +18,10 @@ import { newMessage } from "../store/chatSlice";
 // UUID
 import { v4 as uuid } from "uuid";
 
+// Motion
+import { motion } from "motion/react";
+import { fadeIn, fadeInUp } from "../lib/motion";
+
 const Chatbot = () => {
   // Socket.io
   /** @type {import("socket.io-client").Manager} */
@@ -150,10 +154,14 @@ const Chatbot = () => {
               className="mini-scrollbar mx-auto flex h-[70vh] flex-col gap-3 overflow-y-auto scroll-smooth p-1 md:p-4 lg:h-[75vh] lg:w-[80%] lg:gap-6"
             >
               {history.length === 0 && (
-                <p className="m-auto text-center text-xl text-gray-500 lg:w-1/2 lg:text-2xl">
+                <motion.p
+                  className="m-auto text-center text-xl text-gray-500 lg:w-1/2 lg:text-2xl"
+                  variants={fadeIn}
+                  {...fadeIn}
+                >
                   What's on your mind? Ask me anything! I'm here to help you
                   with anything you need. 😊
-                </p>
+                </motion.p>
               )}
 
               {history.map((msg) => (
@@ -167,9 +175,11 @@ const Chatbot = () => {
               {error && <Bubble role="model" content="An error occurred" />}
             </div>
 
-            <form
+            <motion.form
               onSubmit={sendMessage}
               className="ring-primary shadow-primary fixed bottom-2 left-0 mt-4 w-full space-y-1.5 self-end rounded-lg p-1.5 shadow-sm focus-within:shadow-md focus-within:ring-2 lg:static lg:mx-auto lg:w-[80%]"
+              variants={fadeInUp}
+              {...fadeInUp}
             >
               {/* Chat Input */}
               <textarea
@@ -196,7 +206,7 @@ const Chatbot = () => {
                   <Icon src={upArrow} size={16} alt={"Send"} />
                 </button>
               </div>
-            </form>
+            </motion.form>
           </section>
         </main>
       </Container>

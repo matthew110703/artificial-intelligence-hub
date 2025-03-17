@@ -1,9 +1,7 @@
-
 import { useLocation } from "react-router-dom";
 
 // UI
 import { Container, LoginForm, SignUpForm } from "../components";
-
 
 const LoginAndSignUp = () => {
   const location = useLocation();

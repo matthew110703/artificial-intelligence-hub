@@ -6,6 +6,10 @@ import Button from "./Button";
 // Icons
 import { botPrimary, getStarted } from "../../assets";
 
+// Animation
+import { motion } from "motion/react";
+import { typeWriter, fadeIn, fadeInUp } from "../../lib/motion";
+
 const Hero = ({ dashboard = false }) => {
   const navigate = useNavigate();
   return (
@@ -13,7 +17,10 @@ const Hero = ({ dashboard = false }) => {
       <div className="container mx-auto flex flex-col justify-center gap-8 p-6 lg:flex-row-reverse lg:items-center">
         {/* Image */}
         <figure className={dashboard ? "hidden lg:block" : "mx-auto lg:mx-0"}>
-          <img
+          <motion.img
+            variants={fadeIn}
+            initial="initial"
+            animate="animate"
             src="/media/hero.webp"
             alt="hero-image"
             width={400}
@@ -25,47 +32,106 @@ const Hero = ({ dashboard = false }) => {
         {/* Text Content */}
         <main className="flex flex-col items-center gap-4 lg:w-1/2 lg:items-start">
           <header>
-            <h1 className="dark:text-primary text-3xl font-bold lg:text-5xl">
+            <motion.h1
+              variants={typeWriter}
+              initial="initial"
+              animate="animate"
+              whileInView="blinkBorder"
+              className="dark:text-primary overflow-hidden pr-2 text-3xl font-bold whitespace-nowrap lg:text-5xl"
+            >
               {dashboard ? "Dashboard" : "Unlock the Power of AI"}
-            </h1>
+            </motion.h1>
           </header>
 
-          <aside className="text-xs font-light">
+          <motion.aside
+            variants={fadeIn}
+            initial="initial"
+            animate="animate"
+            className="text-xs font-light"
+          >
             {dashboard
               ? "Your central hub for all AI things. "
               : "Transform your workflow with our suite of advanced AI tools."}
-          </aside>
+          </motion.aside>
 
           {dashboard ? (
-            <p className="text-center font-light lg:w-[90%] lg:text-start">
-            Here, you can access <span className="dark:text-primary font-semibold">powerful</span> tools and explore new features to boost your
-            <span className="dark:text-primary font-semibold"> productivity</span> and
-            <span className="dark:text-primary font-semibold"> creativity</span>.
-          </p>
-          
+            <motion.p
+              variants={fadeInUp}
+              initial="initial"
+              animate="animate"
+              className="text-center font-light lg:w-[90%] lg:text-start"
+            >
+              Here, you can access{" "}
+              <span className="dark:text-primary font-semibold">powerful</span>{" "}
+              tools and explore new features to boost your
+              <span className="dark:text-primary font-semibold">
+                {" "}
+                productivity
+              </span>{" "}
+              and
+              <span className="dark:text-primary font-semibold">
+                {" "}
+                creativity
+              </span>
+              .
+            </motion.p>
           ) : (
-            <p className="text-center font-light lg:w-[90%] lg:text-start">
-  Whether you need to convert <span className="dark:text-primary font-semibold">text to stunning images</span>, generate 
-  <span className="dark:text-primary font-semibold"> natural-sounding</span> speech, 
-  <span className="dark:text-primary font-semibold"> craft perfect emails</span>, or engage with an 
-  <span className="dark:text-primary font-semibold"> intelligent chatbot...</span>
-</p>
-
+            <motion.p
+              variants={fadeInUp}
+              initial="initial"
+              animate="animate"
+              className="text-center font-light lg:w-[90%] lg:text-start"
+            >
+              Whether you need to convert{" "}
+              <span className="dark:text-primary font-semibold">
+                text to stunning images
+              </span>
+              , generate
+              <span className="dark:text-primary font-semibold">
+                {" "}
+                natural-sounding
+              </span>{" "}
+              speech,
+              <span className="dark:text-primary font-semibold">
+                {" "}
+                craft perfect emails
+              </span>
+              , or engage with an
+              <span className="dark:text-primary font-semibold">
+                {" "}
+                intelligent chatbot...
+              </span>
+            </motion.p>
           )}
 
           {dashboard ? (
-            <aside className="dark:text-primary text-lg font-semibold">
+            <motion.aside
+              variants={fadeIn}
+              initial="initial"
+              animate="animate"
+              className="dark:text-primary text-lg font-semibold"
+            >
               Create. Innovate. Elevate.
-            </aside>
+            </motion.aside>
           ) : (
-            <aside className="text-sm font-extralight">
+            <motion.aside
+              variants={fadeIn}
+              initial="initial"
+              animate="animate"
+              className="text-sm font-extralight"
+            >
               AI Hub has you covered.
-            </aside>
+            </motion.aside>
           )}
 
           {/* Call to Actions */}
 
-          <div className="mt-4 flex justify-start gap-4">
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+            className="mt-4 flex justify-start gap-4"
+          >
             <Button
               text={"Get Started"}
               startIcon={getStarted}
@@ -77,7 +143,7 @@ const Hero = ({ dashboard = false }) => {
               startIcon={botPrimary}
               onClick={() => navigate("/chat")}
             />
-          </div>
+          </motion.div>
         </main>
       </div>
     </section>

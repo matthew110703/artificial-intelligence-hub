@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
 import PurposeCard from "../ui/Cards/PurposeCard";
+import Branding from "../ui/Branding";
 
 // Icons
 import {
@@ -163,9 +164,7 @@ const SignUpForm = () => {
           onSubmit={validateForm}
           className="dark:bg-primary/15 flex flex-col items-center justify-center gap-4 rounded-lg p-4 md:p-8 lg:shadow-inner"
         >
-          <h2 className="font-primary mb-2 text-2xl font-bold md:text-4xl">
-            Sign Up
-          </h2>
+          <Branding />
           {/* First Name & Last Name */}
           <div className="flex w-full gap-2">
             <Input
@@ -256,7 +255,7 @@ const SignUpForm = () => {
           </div>
 
           {/* Sign Up Button */}
-          <div>
+          <div className="space-y-2">
             <Button
               type="submit"
               text={"Sign Up"}
@@ -264,11 +263,11 @@ const SignUpForm = () => {
               className={"min-w-sm"}
               loading={loading}
             />
-            <p className="text-center text-sm">
+            <p className="text-center">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-dark dark:text-primary font-semibold underline"
+                className="text-dark dark:text-primary font-semibold hover:underline"
               >
                 Login
               </Link>

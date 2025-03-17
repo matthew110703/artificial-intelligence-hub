@@ -18,7 +18,7 @@ const Input = ({
 }) => {
   return (
     <div
-      className={`shadow-primary border-light focus-within:border-primary flex w-full items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm shadow-sm focus-within:shadow-md dark:bg-white ${className}`}
+      className={`shadow-primary border-light focus-within:border-primary flex w-full items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm shadow-sm transition-shadow duration-150 ease-in-out focus-within:shadow-md dark:bg-white ${className}`}
       onClick={onClick}
     >
       {startAdornment && (

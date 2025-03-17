@@ -15,6 +15,10 @@ import { clearChat, setChat } from "../../store/chatSlice";
 // Services
 import { getAllChats, getChat } from "../../services/chatService";
 
+// Motion
+import { motion } from "motion/react";
+import { slideToRight } from "../../lib/motion";
+
 const Sidebar = ({ handleReconnect }) => {
   const [isOpen, setIsOpen] = useState(false);
   // const [chats, setChats] = useState([]);
@@ -85,8 +89,11 @@ const Sidebar = ({ handleReconnect }) => {
       ></div>
 
       {/* Sidebar + Drawer */}
-      <div
+      <motion.div
         className={`dark:bg-dark bg-light fixed top-0 left-0 z-50 h-screen w-64 p-5 shadow-lg transition-transform lg:block lg:w-[300px] ${isOpen ? "translate-x-0" : "-translate-x-full"} lg:static lg:translate-x-0`}
+        variants={slideToRight}
+        initial="initial"
+        animate="animate"
       >
         {/* Close Button */}
         <button
@@ -123,7 +130,7 @@ const Sidebar = ({ handleReconnect }) => {
             ))} */}
           </div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

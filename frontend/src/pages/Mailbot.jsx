@@ -12,6 +12,16 @@ import { showToast } from "../store/toastSlice";
 // Service
 import { generateEmail } from "../services/aiService";
 
+// Motion
+import { motion } from "motion/react";
+import {
+  fadeInDown,
+  fadeInUp,
+  miniSpinner,
+  slideToLeft,
+  textAnimation,
+} from "../lib/motion";
+
 const Mailbot = () => {
   // Redux
   const dispatch = useDispatch();
@@ -63,7 +73,7 @@ const Mailbot = () => {
       }
     >
       {/* Heading  */}
-      <div className="text-center">
+      <motion.div className="text-center" variants={fadeInDown} {...fadeInDown}>
         <h1 className="font-primary text-xl font-bold md:text-2xl">MailBot</h1>
         <p className="text-sm font-light">
           Write Professional Emails in Minutes, Powered with{" "}
@@ -71,13 +81,15 @@ const Mailbot = () => {
             Google Gemini
           </strong>
         </p>
-      </div>
+      </motion.div>
 
       <section className="flex w-full flex-col items-center justify-center gap-8 p-2 lg:flex-row lg:items-start">
         {/* MailBot Form */}
-        <form
+        <motion.form
           onSubmit={handleSubmit}
           className="ring-primary shadow-primary relative w-full max-w-sm rounded-lg p-1.5 shadow-sm focus-within:shadow-md focus-within:ring-2 md:max-w-xl"
+          variants={fadeInUp}
+          {...fadeInUp}
         >
           <textarea
             name="prompt"
@@ -91,30 +103,34 @@ const Mailbot = () => {
             aria-label="Submit"
             type="submit"
             className="bg-primary absolute right-2 bottom-2 rounded-full p-1.5 text-white"
+            disabled={loading}
           >
-            <Icon
-              src={rightArrow}
-              size={24}
-              alt={"Submit"}
-              tooltipContent={"Submit"}
-            />
+            {loading ? (
+              <motion.div variants={miniSpinner} {...miniSpinner}></motion.div>
+            ) : (
+              <Icon
+                src={rightArrow}
+                size={24}
+                alt={"Submit"}
+                tooltipContent={"Submit"}
+              />
+            )}
           </button>
-          {loading && (
-            <p className="font-primary absolute -bottom-10 left-0 w-full text-center text-xl font-bold">
-              Generating...
-            </p>
-          )}
-        </form>
+        </motion.form>
 
         {inGeneration && !loading && (
           <>
             {/* MailBot Output */}
-            <div className="flex min-w-sm flex-col gap-y-2.5 md:w-full md:max-w-xl lg:max-h-[60vh]">
+            <motion.div
+              className="flex min-w-sm flex-col gap-y-2.5 md:w-full md:max-w-xl lg:max-h-[60vh]"
+              variants={{ slideToLeft }}
+              {...slideToLeft}
+            >
               {/* Email Subject */}
               <label htmlFor="subject">
                 <p className="text-sm font-semibold">Subject:</p>
                 <div className="ring-primary shadow-primary flex w-full gap-2 rounded-lg p-0.5 px-2 shadow-sm focus-within:shadow-md focus-within:ring-2">
-                  <input
+                  <motion.input
                     type="text"
                     name="subject"
                     id="subject"
@@ -122,6 +138,16 @@ const Mailbot = () => {
                     placeholder="Thank you for your recent purchase!"
                     ref={subjectRef}
                     defaultValue={subjects[0] || ""}
+                    key={subjectRef.current?.value}
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      transition: {
+                        duration: 0.3,
+                      },
+                    }}
                   />
                   <button aria-label="Re-generate">
                     <Icon
@@ -138,14 +164,16 @@ const Mailbot = () => {
 
               {/* Email Body */}
               <div className="ring-primary shadow-primary relative flex w-full gap-2 rounded-lg p-0.5 px-2 shadow-sm focus-within:shadow-md focus-within:ring-2">
-                <textarea
+                <motion.textarea
                   name="emailBody"
                   id="emailBody"
                   className="hide-scrollbar min-h-[500px] w-full p-1.5 outline-none"
                   placeholder={`Dear [Client's Name],\n\nThank you for choosing [Your Company Name] for your recent purchase. We are thrilled to have you as part of our community. We have a new product that we think you might like. Click the link below to explore it!\n\nBest,\n[Your Name]`}
                   value={emailBody}
                   onChange={(e) => setEmailBody(e.target.value)}
-                ></textarea>
+                  variants={textAnimation}
+                  {...textAnimation}
+                ></motion.textarea>
                 <button
                   aria-label="Copy Text"
                   className="hover:bg-primary/15 absolute top-2 right-2 rounded-full p-1.5"
@@ -168,7 +196,7 @@ const Mailbot = () => {
                   />
                 </button>
               </div>
-            </div>
+            </motion.div>
           </>
         )}
       </section>

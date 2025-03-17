@@ -19,6 +19,7 @@ import ImageContainer from "./ui/ImageContainer";
 import Badge from "./ui/Badge";
 import ImageCarousel from "./ui/ImageCarousel";
 import Loading from "./ui/Loading";
+import Branding from "./ui/Branding";
 
 export {
   Icon,
@@ -33,6 +34,7 @@ export {
   Badge,
   ImageCarousel,
   Loading,
+  Branding,
 };
 
 // Forms

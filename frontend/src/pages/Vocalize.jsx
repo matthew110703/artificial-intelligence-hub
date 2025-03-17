@@ -22,6 +22,16 @@ import { showToast } from "../store/toastSlice";
 // Services
 import { getVoiceList, generateSpeech } from "../services/aiService";
 
+// Motion
+import { AnimatePresence, motion } from "motion/react";
+import {
+  dropdownAnim,
+  miniSpinner,
+  fadeInDown,
+  slideToLeft,
+  slideToRight,
+} from "../lib/motion";
+
 const Vocalize = () => {
   const dispatch = useDispatch();
 
@@ -108,7 +118,12 @@ const Vocalize = () => {
       disableFooter
     >
       {/* Heading  */}
-      <div className="text-center">
+      <motion.div
+        className="text-center"
+        variants={fadeInDown}
+        initial="initial"
+        animate="animate"
+      >
         <h1 className="font-primary text-xl font-bold md:text-2xl">Vocalize</h1>
         <p className="text-sm font-light">
           Turn Text into Natural-Sounding Speech, Powered with{" "}
@@ -116,21 +131,24 @@ const Vocalize = () => {
             ElevenLabs AI
           </strong>
         </p>
-      </div>
+      </motion.div>
 
       {/* Vocalize Form */}
       <section className="flex w-full flex-col items-center justify-center gap-8 p-2 lg:flex-row">
         {/* Text Area (Prompt) */}
-        <form
+        <motion.form
           onSubmit={handleSubmit}
-          className="shadow-primary ring-primary w-full max-w-sm rounded-lg p-2.5 shadow-sm focus-within:shadow-md focus-within:ring-2 md:max-w-xl"
+          className="shadow-primary ring-primary w-full max-w-sm rounded-lg p-2.5 shadow-sm transition-all focus-within:shadow-md focus-within:ring-2 md:max-w-xl"
+          variants={slideToRight}
+          initial="initial"
+          animate="animate"
         >
           <textarea
             name="prompt"
             id="prompt"
             aria-label="Prompt"
             placeholder={`Type or paste your text here...\n\nTip: Supports upto 29 languages. \n(English, Japanese, Chinese, German, Hindi, French, Korean, Portuguese, Italian, Spanish, Indonesian, Dutch, Turkish, Filipino, Polish, Swedish, Bulgarian, Romanian, Arabic, Czech, Greek, Finnish, Croatian, Malay, Slovak, Danish, Tamil, Ukrainian & Russian.)`}
-            className="field-sizing-content max-h-[600px] min-h-[200px] w-full p-1.5 outline-none"
+            className="dark:bg-dark bg-light field-sizing-content max-h-[600px] min-h-[180px] w-full p-1.5 outline-none"
             value={text}
             onChange={(e) => setText(e.target.value)}
             autoFocus
@@ -141,51 +159,65 @@ const Vocalize = () => {
             className="bg-primary float-end rounded-full p-1.5"
             disabled={loading}
           >
-            <Icon
-              src={audioWave}
-              alt="audio-wave"
-              size={24}
-              tooltipId={"submit"}
-              tooltipContent={loading ? "Loading..." : "Generate"}
-            />
+            {loading ? (
+              <motion.div variants={miniSpinner} {...miniSpinner} />
+            ) : (
+              <Icon
+                src={audioWave}
+                alt="audio-wave"
+                size={24}
+                tooltipId={"submit"}
+                tooltipContent={loading ? "Loading..." : "Generate"}
+              />
+            )}
           </button>
-        </form>
+        </motion.form>
 
         {/* Audio Player */}
-        <div className="bg-primary/25 shadow-primary relative w-full max-w-sm rounded-lg p-4 shadow-sm">
+        <motion.div
+          className="bg-primary/25 shadow-primary relative w-full max-w-sm rounded-lg p-4 shadow-sm"
+          variants={slideToLeft}
+          initial="initial"
+          animate="animate"
+        >
           {/* Voice Selection Menu */}
-          <div
-            className={`dark:bg-dark absolute top-0 right-0 z-10 flex h-auto min-w-sm flex-col gap-2 overflow-hidden rounded-lg bg-white p-4 shadow-lg ${voiceMenu ? "block" : "hidden"}`}
-          >
-            <div className="dark:bg-primary/25 absolute top-0 right-0 h-full w-full"></div>
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold">Select a Voice -</p>
-              <button
-                aria-label="Close"
-                className="self-end"
-                onClick={() => setVoiceMenu(false)}
-              >
-                <Icon src={closeIcon} size={24} alt={"Close"} invert />
-              </button>
-            </div>
-            <div className="grid grid-cols-6 justify-items-center gap-2">
-              {voiceList &&
-                voiceList.map((voice) => (
-                  <button
-                    key={voice.id}
-                    className="bg-primary/50 rounded-full p-1.5"
-                    onClick={() => selectVoice(voice)}
-                  >
-                    <Icon
-                      src={`/media/vocalize/${voice.name}.png`}
-                      tooltipContent={voice.name}
-                      tooltipId={voice.id}
-                      size={48}
-                    />
-                  </button>
-                ))}
-            </div>
-          </div>
+          <AnimatePresence>
+            <motion.div
+              key={voiceMenu}
+              variants={dropdownAnim}
+              {...dropdownAnim}
+              className={`dark:bg-dark absolute top-0 right-0 z-10 flex h-auto min-w-sm flex-col gap-2 overflow-hidden rounded-lg bg-white p-4 shadow-lg ${voiceMenu ? "block" : "hidden"}`}
+            >
+              <div className="dark:bg-primary/25 absolute top-0 right-0 h-full w-full"></div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold">Select a Voice -</p>
+                <button
+                  aria-label="Close"
+                  className="self-end"
+                  onClick={() => setVoiceMenu(false)}
+                >
+                  <Icon src={closeIcon} size={24} alt={"Close"} invert />
+                </button>
+              </div>
+              <div className="grid grid-cols-6 justify-items-center gap-2">
+                {voiceList &&
+                  voiceList.map((voice) => (
+                    <button
+                      key={voice.id}
+                      className="bg-primary/50 rounded-full p-1.5"
+                      onClick={() => selectVoice(voice)}
+                    >
+                      <Icon
+                        src={`/media/vocalize/${voice.name}.png`}
+                        tooltipContent={voice.name}
+                        tooltipId={voice.id}
+                        size={48}
+                      />
+                    </button>
+                  ))}
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
           {/* Voice Settings */}
           <div className="space-y-4 px-2 py-4">
@@ -282,7 +314,7 @@ const Vocalize = () => {
             ]}
             className="border-primary rounded-lg border-2 shadow-sm"
           />
-        </div>
+        </motion.div>
       </section>
     </Container>
   );
